@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=forklift-directory'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=aliaksei'
+    ports:
+      - '5432:5432'
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    environment:
+      - 'PGADMIN_DEFAULT_EMAIL=aliaksei@test.com'
+      - 'PGADMIN_DEFAULT_PASSWORD=secret'
+    ports:
+      - '80:80'

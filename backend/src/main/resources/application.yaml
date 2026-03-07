@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: forklift-directory
+  datasource:
+    url: jdbc:postgresql://localhost:5432/forklift-directory
+    username: aliaksei
+    password: secret
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  sql:
+    init:
+      mode: always
