@@ -1,4 +1,8 @@
-CREATE TABLE utilizer (
+DROP TABLE IF EXISTS malfunction;
+DROP TABLE IF EXISTS forklift;
+DROP TABLE IF EXISTS app_user;
+
+CREATE TABLE app_user (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR,
     second_name VARCHAR,
@@ -12,7 +16,7 @@ CREATE TABLE forklift (
     carrying_capacity NUMERIC(10, 2),
     is_active BOOLEAN DEFAULT TRUE,
     update_timestamp TIMESTAMP DEFAULT NOW(),
-    utilizer_id INTEGER REFERENCES utilizer(id)
+    app_user_id INTEGER REFERENCES app_user(id)
 );
 
 CREATE TABLE malfunction (
