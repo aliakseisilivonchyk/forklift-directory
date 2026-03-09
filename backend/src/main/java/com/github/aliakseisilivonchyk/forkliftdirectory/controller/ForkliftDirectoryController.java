@@ -1,25 +1,28 @@
 package com.github.aliakseisilivonchyk.forkliftdirectory.controller;
 
 import com.github.aliakseisilivonchyk.forkliftdirectory.dto.ForkliftDto;
-import com.github.aliakseisilivonchyk.forkliftdirectory.service.ForkliftService;
+import com.github.aliakseisilivonchyk.forkliftdirectory.dto.MalfunctionDto;
+import com.github.aliakseisilivonchyk.forkliftdirectory.service.ForkliftDirectoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/forklifts")
 @RequiredArgsConstructor
 public class ForkliftDirectoryController {
 
-    private final ForkliftService forkliftService;
+    private final ForkliftDirectoryService forkliftDirectoryService;
 
-    @GetMapping("/forklifts")
+    @GetMapping("")
     public List<ForkliftDto> findAll(@RequestParam(required = false) Optional<String> number) {
-        return forkliftService.findAll(number);
+        return forkliftDirectoryService.findAll(number);
+    }
+
+    @GetMapping("/{id}/malfunctions")
+    public List<MalfunctionDto> findForkliftMalfunctions(@PathVariable int id) {
+        return forkliftDirectoryService.findForkliftMalfunctions(id);
     }
 }

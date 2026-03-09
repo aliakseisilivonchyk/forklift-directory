@@ -1,4 +1,22 @@
-<script setup>
+<script setup lang="ts">
+import {computed, PropType} from "vue";
+
+interface Malfunction {
+  id: bigint
+  startTimestamp: string
+  endTimestamp: string
+  description: number
+}
+
+const typedProps = defineProps({
+  malfunctions: {
+    type: Array as PropType<Array<Malfunction>>,
+    default: () => []
+  }
+});
+
+const itemsLength = computed(() => typedProps.malfunctions.length)
+
 const headers = [
   { title: 'Код записи', value: 'id' },
   { title: 'Начало', value: 'startTimestamp' },
@@ -7,23 +25,15 @@ const headers = [
   { title: 'Причина', key: 'isActive', value: 'description' },
   { title: 'Действия', value: 'actions' }
 ]
-
-const items = [
-  {
-    id: '1',
-    startTimestamp: '16.04.2024 14:12',
-    endTimestamp: '16.04.2024 15:47',
-    downtime: '1ч 35мин',
-    description: 'сломался'
-  }
-]
 </script>
 
 <template>
-  <v-data-table-server :headers="headers" :items="items" hide-default-footer height="500px" fixed-header>
-    <template v-slot:item.isActive="{ item }">
-      <v-checkbox-btn v-model="item.isActive" :ripple="false"></v-checkbox-btn>
-    </template>
+  <v-data-table-server
+      :headers="headers"
+      :items="typedProps.malfunctions"
+      :items-length="itemsLength"
+      hide-default-footer height="500px"
+      fixed-header>
   </v-data-table-server>
 </template>
 

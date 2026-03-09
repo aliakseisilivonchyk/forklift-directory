@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -21,7 +20,4 @@ public class Forklift {
     @OneToOne
     @JoinColumn(name = "app_user_id")
     private AppUser user;
-
-    @OneToMany(mappedBy = "forklift")
-    private List<Malfunction> malfunctions;
 }

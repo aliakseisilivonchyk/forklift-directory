@@ -3,16 +3,18 @@ import ForkliftTable from "@/components/ForkliftTable.vue";
 import MalfunctionDirectory from "@/components/MalfunctionDirectory.vue";
 import {ref} from 'vue';
 
-const number = ref('');
+const filterNumber = ref('');
 const forklifts = ref([]);
 const error = ref(null);
+const selectedForkliftId = ref('');
+const selectedForkliftNumber = ref('');
 
-const fetchUserData = async () => {
+const fetchForklifts = async () => {
   forklifts.value = [];
   error.value = null;
 
   try {
-    const params = new URLSearchParams({ number: number.value }).toString();
+    const params = new URLSearchParams({ number: filterNumber.value }).toString();
     const response = await fetch(`/api/forklifts?${params}`);
 
     if (!response.ok) {
@@ -24,7 +26,18 @@ const fetchUserData = async () => {
     console.error(err);
     error.value = 'Failed to fetch user data.';
   }
-};
+}
+
+const clearFilter = async () => {
+  filterNumber.value = '';
+
+  await fetchForklifts();
+}
+
+const updateSelectedForklift = (id, number) => {
+  selectedForkliftId.value = id;
+  selectedForkliftNumber.value = number;
+}
 </script>
 
 <template>
@@ -41,11 +54,16 @@ const fetchUserData = async () => {
         </v-label>
       </v-col>
       <v-col cols="2">
-        <v-text-field v-model="number"/>
+        <v-text-field v-model="filterNumber"/>
       </v-col>
       <v-col cols="2">
-        <v-btn color="primary" @click="fetchUserData">
+        <v-btn color="primary" @click="fetchForklifts">
           Искать
+        </v-btn>
+      </v-col>
+      <v-col cols="2">
+        <v-btn color="primary" @click="clearFilter">
+          Сбросить фильтр
         </v-btn>
       </v-col>
     </v-row>
@@ -57,8 +75,8 @@ const fetchUserData = async () => {
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6"><ForkliftTable :forklifts="forklifts"/></v-col>
-      <v-col cols="6"><MalfunctionDirectory/></v-col>
+      <v-col cols="6"><ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/></v-col>
+      <v-col cols="6"><MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/></v-col>
     </v-row>
   </v-container>
 </template>
