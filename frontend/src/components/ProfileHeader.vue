@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <v-sheet color="primary" rounded>
+  <v-sheet color="primary" rounded="lg">
     <v-container fluid>
       <v-row class="justify-end">
         <v-col cols="auto">

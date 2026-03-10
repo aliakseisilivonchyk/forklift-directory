@@ -69,7 +69,8 @@ const addNewRow = () => {
         <v-text-field variant="outlined" v-model="filterNumber"/>
       </v-col>
       <v-col cols="auto">
-        <v-btn color="primary" @click="fetchForklifts">
+        <v-btn color="primary" @click="fetchForklifts" rounded="lg">
+          <v-icon color="white">mdi-magnify</v-icon>
           Искать
         </v-btn>
       </v-col>
@@ -82,7 +83,7 @@ const addNewRow = () => {
     </v-row>
     <v-row>
       <v-col cols="auto">
-        <v-btn @click="addNewRow" color="primary">
+        <v-btn @click="addNewRow" color="primary" rounded="lg">
           Добавить
         </v-btn>
       </v-col>

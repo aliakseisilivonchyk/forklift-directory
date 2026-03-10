@@ -48,7 +48,7 @@ const createMalfunction = async () => {
           text="Добавить"
           v-bind="activatorProps"
           color="primary"
-      ></v-btn>
+          rounded="lg"></v-btn>
     </template>
 
     <v-card title="Проблемы с погрузчиком? опишите">

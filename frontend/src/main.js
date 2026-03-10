@@ -20,7 +20,7 @@ const vuetify = createVuetify({
             light: {
                 dark: false,
                 colors: {
-                    primary: colors.red.darken1,
+                    primary: '#cb0001',
                     secondary: '#ededed',
                     background: colors.shades.white
                 }
