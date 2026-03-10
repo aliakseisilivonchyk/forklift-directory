@@ -14,3 +14,11 @@ services:
       - 'PGADMIN_DEFAULT_PASSWORD=secret'
     ports:
       - '80:80'
+  app:
+    build: ../.
+    ports:
+      - '8080:8080'
+    environment:
+      - 'DATABASE_URL=jdbc:postgresql://postgres:5432/forklift-directory'
+      - 'DATABASE_USERNAME=aliaksei'
+      - 'DATABASE_PASSWORD=secret'
