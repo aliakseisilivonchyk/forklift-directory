@@ -43,10 +43,6 @@ public class ForkliftDirectoryService {
                 .toList();
     }
 
-    public void deleteById(int id) {
-        forkliftRepository.deleteById(id);
-    }
-
     public ForkliftDto createForklift(ForkliftDto forkliftDto) {
         Forklift forklift = convertToModel(forkliftDto);
         forklift.setUpdateTimestamp(new Date());
@@ -54,12 +50,20 @@ public class ForkliftDirectoryService {
         return convertToDto(savedForklift);
     }
 
-    public MalfunctionDto createForkliftMalfunction(int forkliftId, MalfunctionDto malfunctionDto) {
+    public void deleteForkliftById(int id) {
+        forkliftRepository.deleteById(id);
+    }
+
+    public MalfunctionDto createMalfunction(int forkliftId, MalfunctionDto malfunctionDto) {
         Forklift existingForklift = forkliftRepository.findById(forkliftId).get();
         Malfunction malfunction = convertToModel(malfunctionDto);
         malfunction.setForklift(existingForklift);
         Malfunction savedMalfunction = malfunctionRepository.save(malfunction);
         return convertToDto(savedMalfunction);
+    }
+
+    public void deleteMalfunctionById(int id) {
+        malfunctionRepository.deleteById(id);
     }
 
     private static ForkliftDto convertToDto(Forklift forklift) {

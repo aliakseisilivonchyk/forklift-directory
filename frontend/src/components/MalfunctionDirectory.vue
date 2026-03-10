@@ -43,7 +43,7 @@ const fetchMalfunctions = async (id) => {
 <template>
   <h1>Простои по погрузчику {{typedProps.forkliftNumber}}</h1>
   <MalfunctionCreateDialog :forkliftId="typedProps.forkliftId"/>
-  <MalfunctionTable :malfunctions="malfunctions"/>
+  <MalfunctionTable :forkliftId="typedProps.forkliftId" :malfunctions="malfunctions"/>
 </template>
 
 <style scoped>

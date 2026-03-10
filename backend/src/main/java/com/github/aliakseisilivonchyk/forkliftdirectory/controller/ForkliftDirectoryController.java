@@ -21,14 +21,9 @@ public class ForkliftDirectoryController {
         return forkliftDirectoryService.findAll(number);
     }
 
-    @GetMapping("/{id}/malfunctions")
-    public List<MalfunctionDto> findForkliftMalfunctions(@PathVariable int id) {
-        return forkliftDirectoryService.findForkliftMalfunctions(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteForklift(@PathVariable int id) {
-        forkliftDirectoryService.deleteById(id);
+    @GetMapping("/{forkliftId}/malfunctions")
+    public List<MalfunctionDto> findForkliftMalfunctions(@PathVariable int forkliftId) {
+        return forkliftDirectoryService.findForkliftMalfunctions(forkliftId);
     }
 
     @PostMapping("")
@@ -36,8 +31,18 @@ public class ForkliftDirectoryController {
         return forkliftDirectoryService.createForklift(forkliftDto);
     }
 
-    @PostMapping("/{id}/malfunctions")
-    public MalfunctionDto createMalfunction(@PathVariable int id, @RequestBody MalfunctionDto malfunctionDto) {
-        return forkliftDirectoryService.createForkliftMalfunction(id, malfunctionDto);
+    @DeleteMapping("/{forkliftId}")
+    public void deleteForklift(@PathVariable int forkliftId) {
+        forkliftDirectoryService.deleteForkliftById(forkliftId);
+    }
+
+    @PostMapping("/{forkliftId}/malfunctions")
+    public MalfunctionDto createMalfunction(@PathVariable int forkliftId, @RequestBody MalfunctionDto malfunctionDto) {
+        return forkliftDirectoryService.createMalfunction(forkliftId, malfunctionDto);
+    }
+
+    @DeleteMapping("/{forkliftId}/malfunctions/{malfunctionId}")
+    public void deleteMalfunction(@PathVariable int forkliftId, @PathVariable int malfunctionId) {
+        forkliftDirectoryService.deleteMalfunctionById(malfunctionId);
     }
 }
