@@ -2,9 +2,9 @@ spring:
   application:
     name: forklift-directory
   datasource:
-    url: jdbc:postgresql://localhost:5432/forklift-directory
-    username: aliaksei
-    password: secret
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
