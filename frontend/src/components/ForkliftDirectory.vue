@@ -38,6 +38,18 @@ const updateSelectedForklift = (id, number) => {
   selectedForkliftId.value = id;
   selectedForkliftNumber.value = number;
 }
+
+const addNewRow = () => {
+  const newRow = {
+    brand: '',
+    number: '',
+    carryingCapacity: 0,
+    isActive: true,
+    isNew: true
+  };
+
+  forklifts.value.push(newRow);
+};
 </script>
 
 <template>
@@ -54,7 +66,7 @@ const updateSelectedForklift = (id, number) => {
         </v-label>
       </v-col>
       <v-col cols="2">
-        <v-text-field v-model="filterNumber"/>
+        <v-text-field variant="outlined" v-model="filterNumber"/>
       </v-col>
       <v-col cols="2">
         <v-btn color="primary" @click="fetchForklifts">
@@ -69,7 +81,7 @@ const updateSelectedForklift = (id, number) => {
     </v-row>
     <v-row>
       <v-col>
-        <v-btn color="primary">
+        <v-btn @click="addNewRow" color="primary">
           Добавить
         </v-btn>
       </v-col>

@@ -25,4 +25,9 @@ public class ForkliftDirectoryController {
     public List<MalfunctionDto> findForkliftMalfunctions(@PathVariable int id) {
         return forkliftDirectoryService.findForkliftMalfunctions(id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteForklift(@PathVariable int id) {
+        forkliftDirectoryService.deleteById(id);
+    }
 }

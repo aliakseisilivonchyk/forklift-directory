@@ -42,6 +42,10 @@ public class ForkliftDirectoryService {
                 .toList();
     }
 
+    public void deleteById(int id) {
+        forkliftRepository.deleteById(id);
+    }
+
     private static ForkliftDto convertToDto(Forklift forklift) {
         return new ForkliftDto(forklift.getId(), forklift.getBrand(), forklift.getNumber(),
                 forklift.getCarryingCapacity(), forklift.isActive(), forklift.getUpdateTimestamp());

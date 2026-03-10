@@ -8,6 +8,8 @@ interface Forklift {
   carryingCapacity: number
   isActive: boolean
   updateTimestamp: string
+  appUser?: string
+  isNew?: boolean
 }
 
 const typedProps = defineProps({
@@ -32,10 +34,38 @@ const headers = [
 
 const emit = defineEmits(['updateSelected']);
 
-function selectForklift(item, row) {
+const selectForklift = (item) => {
   //TODO: row.select(!row.isSelected);
-  emit('updateSelected', row.item.id, row.item.number);
+  if(!item.isNew) {
+    emit('updateSelected', item.id, item.number);
+  }
 }
+
+const cancelNewRow = () => {
+  typedProps.forklifts.pop();
+};
+
+const saveNewRow = (item) => {
+};
+
+const updateExistingRow = (item) => {
+};
+
+const removeExistingRow = async (item, index) => {
+  try {
+    const response = await fetch(`/api/forklifts/${item.id}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok || response.status === 204) {
+      typedProps.forklifts.splice(index, 1);
+    } else {
+      throw new Error('Deletion failed on server');
+    }
+  } catch (error) {
+    console.error('There was an error!', error);
+  }
+};
 </script>
 
 <template>
@@ -48,6 +78,46 @@ function selectForklift(item, row) {
       fixed-header
       select-strategy="single"
       @click:row="selectForklift">
+    <template v-slot:item="{ item, index }">
+      <tr @click="selectForklift(item)">
+        <template v-if="item.isNew">
+          <!-- Display inputs for the new row -->
+          <td></td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line type="number"></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line type="number"></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line type="number"></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line type="number"></v-text-field></td>
+          <td></td>
+          <td></td>
+          <td>
+            <v-btn icon color="success" @click="saveNewRow(item)">
+              <v-icon>mdi-check</v-icon>
+            </v-btn>
+            <v-btn icon color="error" @click="cancelNewRow()">
+              <v-icon>mdi-cancel</v-icon>
+            </v-btn>
+          </td>
+        </template>
+        <template v-else>
+          <!-- Default display for existing rows -->
+          <td>{{ item.id }}</td>
+          <td>{{ item.brand }}</td>
+          <td>{{ item.number }}</td>
+          <td>{{ item.carryingCapacity }}</td>
+          <td>{{ item.isActive }}</td>
+          <td>{{ item.updateTimestamp }}</td>
+          <td>{{ item.appUser }}</td>
+          <td>
+            <v-btn icon color="success" @click="updateExistingRow(item)">
+              <v-icon>mdi-check</v-icon>
+            </v-btn>
+            <v-btn icon color="error" @click="removeExistingRow(item, index)">
+              <v-icon>mdi-cancel</v-icon>
+            </v-btn>
+          </td>
+        </template>
+      </tr>
+    </template>
   </v-data-table-server>
 </template>
 
