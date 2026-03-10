@@ -74,8 +74,9 @@ const addNewRow = () => {
         </v-btn>
       </v-col>
       <v-col cols="2">
-        <v-btn color="primary" @click="clearFilter">
-          Сбросить фильтр
+        <v-btn color="black" variant="text" @click="clearFilter">
+          <v-icon color="primary">mdi-close</v-icon>
+          <u>Сбросить фильтр</u>
         </v-btn>
       </v-col>
     </v-row>

@@ -21,7 +21,7 @@ const vuetify = createVuetify({
                 dark: false,
                 colors: {
                     primary: colors.red.darken1,
-                    secondary: colors.red.lighten4,
+                    secondary: '#ededed',
                     background: colors.shades.white
                 }
             }

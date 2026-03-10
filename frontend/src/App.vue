@@ -9,7 +9,7 @@ import MenuTab from "@/components/MenuTab.vue";
       <header>
         <ProfileHeader/>
       </header>
-
+      <v-divider :thickness="20" color="white"></v-divider>
       <main>
         <MenuTab/>
       </main>
