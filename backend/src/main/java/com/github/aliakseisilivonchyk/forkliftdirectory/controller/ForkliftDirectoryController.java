@@ -36,6 +36,11 @@ public class ForkliftDirectoryController {
         forkliftDirectoryService.deleteForkliftById(forkliftId);
     }
 
+    @PutMapping("/{forkliftId}")
+    public ForkliftDto updateForklift(@PathVariable int forkliftId, @RequestBody ForkliftDto forkliftDto) {
+        return forkliftDirectoryService.updateForklift(forkliftId, forkliftDto);
+    }
+
     @PostMapping("/{forkliftId}/malfunctions")
     public MalfunctionDto createMalfunction(@PathVariable int forkliftId, @RequestBody MalfunctionDto malfunctionDto) {
         return forkliftDirectoryService.createMalfunction(forkliftId, malfunctionDto);
@@ -44,5 +49,11 @@ public class ForkliftDirectoryController {
     @DeleteMapping("/{forkliftId}/malfunctions/{malfunctionId}")
     public void deleteMalfunction(@PathVariable int forkliftId, @PathVariable int malfunctionId) {
         forkliftDirectoryService.deleteMalfunctionById(malfunctionId);
+    }
+
+    @PutMapping("/{forkliftId}/malfunctions/{malfunctionId}")
+    public MalfunctionDto updateMalfunction(@PathVariable int forkliftId, @PathVariable int malfunctionId,
+                                  @RequestBody MalfunctionDto malfunctionDto) {
+        return forkliftDirectoryService.updateMalfunction(malfunctionId, malfunctionDto);
     }
 }

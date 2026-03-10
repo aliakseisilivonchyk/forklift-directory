@@ -45,7 +45,8 @@ const addNewRow = () => {
     number: '',
     carryingCapacity: 0,
     isActive: true,
-    isNew: true
+    isNew: true,
+    isEdited: false
   };
 
   forklifts.value.push(newRow);

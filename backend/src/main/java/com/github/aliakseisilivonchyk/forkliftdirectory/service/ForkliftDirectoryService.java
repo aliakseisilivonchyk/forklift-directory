@@ -37,7 +37,7 @@ public class ForkliftDirectoryService {
     }
 
     public List<MalfunctionDto> findForkliftMalfunctions(int forkliftId) {
-        return malfunctionRepository.findAllByForkliftId(forkliftId)
+        return malfunctionRepository.findAllByForkliftIdOrderByStartTimestampDesc(forkliftId)
                 .stream()
                 .map(ForkliftDirectoryService::convertToDto)
                 .toList();
@@ -54,6 +54,16 @@ public class ForkliftDirectoryService {
         forkliftRepository.deleteById(id);
     }
 
+    public ForkliftDto updateForklift(int forkliftId, ForkliftDto forkliftDto) {
+        Forklift existingForklift = forkliftRepository.findById(forkliftId).get();
+        existingForklift.setUpdateTimestamp(new Date());
+        existingForklift.setBrand(forkliftDto.brand());
+        existingForklift.setNumber(forkliftDto.number());
+        existingForklift.setCarryingCapacity(forkliftDto.carryingCapacity());
+        Forklift savedForklift = forkliftRepository.save(existingForklift);
+        return convertToDto(savedForklift);
+    }
+
     public MalfunctionDto createMalfunction(int forkliftId, MalfunctionDto malfunctionDto) {
         Forklift existingForklift = forkliftRepository.findById(forkliftId).get();
         Malfunction malfunction = convertToModel(malfunctionDto);
@@ -64,6 +74,15 @@ public class ForkliftDirectoryService {
 
     public void deleteMalfunctionById(int id) {
         malfunctionRepository.deleteById(id);
+    }
+
+    public MalfunctionDto updateMalfunction(int malfunctionId, MalfunctionDto malfunctionDto) {
+        Malfunction existingMalfunction = malfunctionRepository.findById(malfunctionId).get();
+        existingMalfunction.setStartTimestamp(malfunctionDto.startTimestamp());
+        existingMalfunction.setEndTimestamp(malfunctionDto.endTimestamp());
+        existingMalfunction.setDescription(malfunctionDto.description());
+        Malfunction savedMalfunction = malfunctionRepository.save(existingMalfunction);
+        return convertToDto(savedMalfunction);
     }
 
     private static ForkliftDto convertToDto(Forklift forklift) {

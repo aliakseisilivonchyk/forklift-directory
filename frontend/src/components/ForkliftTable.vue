@@ -10,6 +10,7 @@ interface Forklift {
   updateTimestamp: string
   appUser?: string
   isNew?: boolean
+  isEdited?: boolean
 }
 
 const typedProps = defineProps({
@@ -67,6 +68,30 @@ const saveNewRow = async (item) => {
 };
 
 const updateExistingRow = (item) => {
+  item.isEdited = true;
+};
+
+const cancelUpdateExistingRow = (item) => {
+  item.isEdited = false;
+};
+
+const saveExistingRow = async (item) => {
+  try {
+    const response = await fetch(`/api/forklifts/${item.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item)
+    });
+
+    if (response.ok || response.status === 201) {
+      const updatedItem = await response.json();
+      item.isEdited = false;
+    } else {
+      throw new Error('Deletion failed on server');
+    }
+  } catch (error) {
+    console.error('There was an error!', error);
+  }
 };
 
 const removeExistingRow = async (item, index) => {
@@ -111,6 +136,24 @@ const removeExistingRow = async (item, index) => {
               <v-icon>mdi-check-bold</v-icon>
             </v-btn>
             <v-btn icon variant="text" @click="cancelNewRow()">
+              <v-icon>mdi-close-thick</v-icon>
+            </v-btn>
+          </td>
+        </template>
+        <template v-else-if="item.isEdited">
+          <!-- Display inputs for the edited row -->
+          <td>{{ item.id }}</td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line></v-text-field></td>
+          <td>{{ item.updateTimestamp }}</td>
+          <td>{{ item.appUser }}</td>
+          <td>
+            <v-btn icon variant="text" @click="saveExistingRow(item)">
+              <v-icon>mdi-check-bold</v-icon>
+            </v-btn>
+            <v-btn icon variant="text" @click="cancelUpdateExistingRow(item)">
               <v-icon>mdi-close-thick</v-icon>
             </v-btn>
           </td>

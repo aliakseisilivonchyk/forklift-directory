@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MalfunctionRepository extends ListCrudRepository<Malfunction, Integer> {
 
-    List<Malfunction> findAllByForkliftId(int forkliftId);
+    List<Malfunction> findAllByForkliftIdOrderByStartTimestampDesc(int forkliftId);
 }
