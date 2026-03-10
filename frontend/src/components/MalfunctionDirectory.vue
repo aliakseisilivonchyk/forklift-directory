@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MalfunctionTable from "@/components/MalfunctionTable.vue";
 import {ref, watch} from "vue";
+import MalfunctionCreateDialog from "@/components/MalfunctionCreateDialog.vue";
 
 const typedProps = defineProps({
   forkliftId: {
@@ -41,9 +42,7 @@ const fetchMalfunctions = async (id) => {
 
 <template>
   <h1>Простои по погрузчику {{typedProps.forkliftNumber}}</h1>
-  <v-btn color="primary">
-    Добавить
-  </v-btn>
+  <MalfunctionCreateDialog :forkliftId="typedProps.forkliftId"/>
   <MalfunctionTable :malfunctions="malfunctions"/>
 </template>
 

@@ -35,4 +35,9 @@ public class ForkliftDirectoryController {
     public ForkliftDto createForklift(@RequestBody ForkliftDto forkliftDto) {
         return forkliftDirectoryService.createForklift(forkliftDto);
     }
+
+    @PostMapping("/{id}/malfunctions")
+    public MalfunctionDto createMalfunction(@PathVariable int id, @RequestBody MalfunctionDto malfunctionDto) {
+        return forkliftDirectoryService.createForkliftMalfunction(id, malfunctionDto);
+    }
 }

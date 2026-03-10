@@ -54,6 +54,14 @@ public class ForkliftDirectoryService {
         return convertToDto(savedForklift);
     }
 
+    public MalfunctionDto createForkliftMalfunction(int forkliftId, MalfunctionDto malfunctionDto) {
+        Forklift existingForklift = forkliftRepository.findById(forkliftId).get();
+        Malfunction malfunction = convertToModel(malfunctionDto);
+        malfunction.setForklift(existingForklift);
+        Malfunction savedMalfunction = malfunctionRepository.save(malfunction);
+        return convertToDto(savedMalfunction);
+    }
+
     private static ForkliftDto convertToDto(Forklift forklift) {
         return new ForkliftDto(forklift.getId(), forklift.getBrand(), forklift.getNumber(),
                 forklift.getCarryingCapacity(), forklift.isActive(), forklift.getUpdateTimestamp());
@@ -72,5 +80,14 @@ public class ForkliftDirectoryService {
     private static MalfunctionDto convertToDto(Malfunction malfunction) {
         return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp(), malfunction.getEndTimestamp(),
                 malfunction.getDescription());
+    }
+
+    private static Malfunction convertToModel(MalfunctionDto malfunctionDto) {
+        Malfunction malfunction = new Malfunction();
+        malfunction.setStartTimestamp(malfunctionDto.startTimestamp());
+        malfunction.setEndTimestamp(malfunctionDto.endTimestamp());
+        malfunction.setDescription(malfunctionDto.description());
+
+        return malfunction;
     }
 }
