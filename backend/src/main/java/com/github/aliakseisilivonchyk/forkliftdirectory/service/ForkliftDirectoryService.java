@@ -83,7 +83,7 @@ public class ForkliftDirectoryService {
 
     private static MalfunctionDto convertToDto(Malfunction malfunction) {
         return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp(), malfunction.getEndTimestamp(),
-                malfunction.getDescription());
+                malfunction.getDowntime(), malfunction.getDescription());
     }
 
     private static Malfunction convertToModel(MalfunctionDto malfunctionDto) {

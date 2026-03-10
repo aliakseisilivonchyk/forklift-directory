@@ -12,6 +12,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        type:
+          preferred_duration_jdbc_type: INTERVAL_SECOND
     show-sql: true
   sql:
     init:
