@@ -92,7 +92,6 @@ const removeExistingRow = async (item, index) => {
       :items="typedProps.forklifts"
       :items-length="itemsLength"
       hide-default-footer
-      height="500px"
       fixed-header
       select-strategy="single"
       @click:row="selectForklift">

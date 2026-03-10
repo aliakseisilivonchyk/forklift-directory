@@ -53,14 +53,14 @@ const addNewRow = () => {
 </script>
 
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
-      <v-col>
+      <v-col cols="auto">
         <h1>Справочник погрузчиков</h1>
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="2">
+      <v-col cols="auto">
         <v-label>
           Номер погрузчика
         </v-label>
@@ -68,12 +68,12 @@ const addNewRow = () => {
       <v-col cols="2">
         <v-text-field variant="outlined" v-model="filterNumber"/>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="auto">
         <v-btn color="primary" @click="fetchForklifts">
           Искать
         </v-btn>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="auto">
         <v-btn color="black" variant="text" @click="clearFilter">
           <v-icon color="primary">mdi-close</v-icon>
           <u>Сбросить фильтр</u>
@@ -81,7 +81,7 @@ const addNewRow = () => {
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="auto">
         <v-btn @click="addNewRow" color="primary">
           Добавить
         </v-btn>

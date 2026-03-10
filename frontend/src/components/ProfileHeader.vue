@@ -4,9 +4,9 @@
 
 <template>
   <v-sheet color="primary" rounded>
-    <v-container>
-      <v-row class="align-center justify-end">
-        <v-col>
+    <v-container fluid>
+      <v-row class="justify-end">
+        <v-col cols="auto">
           <v-btn>
             Профиль
           </v-btn>
