@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +47,26 @@ public class ForkliftDirectoryService {
         forkliftRepository.deleteById(id);
     }
 
+    public ForkliftDto createForklift(ForkliftDto forkliftDto) {
+        Forklift forklift = convertToModel(forkliftDto);
+        forklift.setUpdateTimestamp(new Date());
+        Forklift savedForklift = forkliftRepository.save(forklift);
+        return convertToDto(savedForklift);
+    }
+
     private static ForkliftDto convertToDto(Forklift forklift) {
         return new ForkliftDto(forklift.getId(), forklift.getBrand(), forklift.getNumber(),
                 forklift.getCarryingCapacity(), forklift.isActive(), forklift.getUpdateTimestamp());
+    }
+
+    private static Forklift convertToModel(ForkliftDto forkliftDto) {
+        Forklift forklift = new Forklift();
+        forklift.setBrand(forkliftDto.brand());
+        forklift.setNumber(forkliftDto.number());
+        forklift.setCarryingCapacity(forkliftDto.carryingCapacity());
+        forklift.setActive(forkliftDto.isActive());
+
+        return forklift;
     }
 
     private static MalfunctionDto convertToDto(Malfunction malfunction) {

@@ -30,4 +30,9 @@ public class ForkliftDirectoryController {
     public void deleteForklift(@PathVariable int id) {
         forkliftDirectoryService.deleteById(id);
     }
+
+    @PostMapping("")
+    public ForkliftDto createForklift(@RequestBody ForkliftDto forkliftDto) {
+        return forkliftDirectoryService.createForklift(forkliftDto);
+    }
 }

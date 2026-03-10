@@ -10,6 +10,7 @@ import java.util.Date;
 public class Forklift {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String brand;
     private String number;

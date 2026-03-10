@@ -45,7 +45,25 @@ const cancelNewRow = () => {
   typedProps.forklifts.pop();
 };
 
-const saveNewRow = (item) => {
+const saveNewRow = async (item) => {
+  try {
+    const response = await fetch(`/api/forklifts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item)
+    });
+
+    if (response.ok || response.status === 201) {
+      const updatedItem = await response.json();
+      item.id = updatedItem.id;
+      item.updateTimestamp = updatedItem.updateTimestamp;
+      item.isNew = false;
+    } else {
+      throw new Error('Deletion failed on server');
+    }
+  } catch (error) {
+    console.error('There was an error!', error);
+  }
 };
 
 const updateExistingRow = (item) => {
@@ -83,10 +101,10 @@ const removeExistingRow = async (item, index) => {
         <template v-if="item.isNew">
           <!-- Display inputs for the new row -->
           <td></td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line type="number"></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line type="number"></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line type="number"></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line type="number"></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line></v-text-field></td>
           <td></td>
           <td></td>
           <td>
