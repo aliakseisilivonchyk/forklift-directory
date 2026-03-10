@@ -108,11 +108,11 @@ const removeExistingRow = async (item, index) => {
           <td></td>
           <td></td>
           <td>
-            <v-btn icon color="success" @click="saveNewRow(item)">
-              <v-icon>mdi-check</v-icon>
+            <v-btn icon variant="text" @click="saveNewRow(item)">
+              <v-icon>mdi-check-bold</v-icon>
             </v-btn>
-            <v-btn icon color="error" @click="cancelNewRow()">
-              <v-icon>mdi-cancel</v-icon>
+            <v-btn icon variant="text" @click="cancelNewRow()">
+              <v-icon>mdi-close-thick</v-icon>
             </v-btn>
           </td>
         </template>
@@ -126,11 +126,11 @@ const removeExistingRow = async (item, index) => {
           <td>{{ item.updateTimestamp }}</td>
           <td>{{ item.appUser }}</td>
           <td>
-            <v-btn icon color="success" @click="updateExistingRow(item)">
-              <v-icon>mdi-check</v-icon>
+            <v-btn icon variant="text" @click="updateExistingRow(item)">
+              <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <v-btn icon color="error" @click="removeExistingRow(item, index)">
-              <v-icon>mdi-cancel</v-icon>
+            <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+              <v-icon>mdi-close-thick</v-icon>
             </v-btn>
           </td>
         </template>

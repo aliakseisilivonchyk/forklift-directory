@@ -66,11 +66,11 @@ const removeExistingRow = async (item, index) => {
         <td>{{ item.downtime }}</td>
         <td>{{ item.description }}</td>
         <td>
-          <v-btn icon color="success" @click="updateExistingRow(item)">
-            <v-icon>mdi-check</v-icon>
+          <v-btn icon variant="text" @click="updateExistingRow(item)">
+            <v-icon>mdi-pencil</v-icon>
           </v-btn>
-          <v-btn icon color="error" @click="removeExistingRow(item, index)">
-            <v-icon>mdi-cancel</v-icon>
+          <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+            <v-icon>mdi-close-thick</v-icon>
           </v-btn>
         </td>
       </tr>
