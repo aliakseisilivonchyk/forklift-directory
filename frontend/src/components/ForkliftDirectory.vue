@@ -54,46 +54,50 @@ const addNewRow = () => {
 </script>
 
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col cols="auto">
-        <h1>Справочник погрузчиков</h1>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="auto">
-        <v-label>
-          Номер погрузчика
-        </v-label>
-      </v-col>
-      <v-col cols="2">
-        <v-text-field variant="solo" v-model="filterNumber" bg-color="white"/>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="primary" @click="fetchForklifts" rounded="lg">
-          <v-icon color="white">mdi-magnify</v-icon>
-          Искать
-        </v-btn>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="black" variant="text" @click="clearFilter">
-          <v-icon color="primary">mdi-close</v-icon>
-          <u>Сбросить фильтр</u>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="auto">
-        <v-btn @click="addNewRow" color="primary" rounded="lg">
-          Добавить
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="6"><ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/></v-col>
-      <v-col cols="6"><MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/></v-col>
-    </v-row>
-  </v-container>
+  <v-row>
+    <v-col cols="12">
+      <h1>Справочник погрузчиков</h1>
+    </v-col>
+    <v-col>
+      <v-row>
+        <v-col cols="auto">
+          <v-label>
+            Номер погрузчика
+          </v-label>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field variant="solo" v-model="filterNumber" bg-color="background"/>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn color="primary" @click="fetchForklifts" rounded="lg">
+            <v-icon color="background">mdi-magnify</v-icon>
+            Искать
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn color="black" variant="text" @click="clearFilter">
+            <v-icon color="primary">mdi-close</v-icon>
+            <u>Сбросить фильтр</u>
+          </v-btn>
+        </v-col>
+        <v-col cols="12">
+          <v-btn @click="addNewRow" color="primary" rounded="lg">
+            Добавить
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-row>
+            <v-col cols="6">
+              <ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/>
+            </v-col>
+            <v-col cols="6">
+              <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <style scoped>
