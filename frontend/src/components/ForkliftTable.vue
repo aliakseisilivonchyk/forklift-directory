@@ -27,14 +27,14 @@ const typedProps = defineProps({
 const itemsLength = computed(() => typedProps.forklifts.length)
 
 const headers = [
-  { title: 'Код записи', value: 'id', align: 'center' },
-  { title: 'Марка', value: 'brand', align: 'center' },
-  { title: 'Номер', value: 'number', align: 'center' },
-  { title: 'Грузоподъемность', value: 'carryingCapacity', align: 'center' },
-  { title: 'Активен', value: 'isActive', align: 'center' },
-  { title: 'Время и Дата изменения', value: 'updateTimestamp', align: 'center' },
-  { title: 'Пользователь', value: 'appUser', align: 'center' },
-  { title: 'Действия', value: 'actions', align: 'center' }
+  { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Марка', value: 'brand', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Номер', value: 'number', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Грузоподъем -ность', value: 'carryingCapacity', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Активен', value: 'isActive', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Время и Дата изменения', value: 'updateTimestamp', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Пользователь', value: 'appUser', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
 ]
 
 const emit = defineEmits(['updateSelected']);
@@ -133,55 +133,61 @@ const removeExistingRow = async (item, index) => {
         <template v-if="item.isNew">
           <!-- Display inputs for the new row -->
           <td></td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
           <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td></td>
           <td></td>
           <td>
-            <v-btn icon variant="text" @click="saveNewRow(item)">
-              <v-icon>mdi-check-bold</v-icon>
-            </v-btn>
-            <v-btn icon variant="text" @click="cancelNewRow()">
-              <v-icon>mdi-close-thick</v-icon>
-            </v-btn>
+            <v-sheet class="d-flex">
+              <v-btn icon variant="text" @click="saveNewRow(item)">
+                <v-icon>mdi-check-bold</v-icon>
+              </v-btn>
+              <v-btn icon variant="text" @click="cancelNewRow()">
+                <v-icon>mdi-close-thick</v-icon>
+              </v-btn>
+            </v-sheet>
           </td>
         </template>
         <template v-else-if="item.isEdited">
           <!-- Display inputs for the edited row -->
-          <td>{{ item.id }}</td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
+          <td class="text-center text-body-small">{{ item.id }}</td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
           <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
-          <td>{{ item.updateTimestamp }}</td>
-          <td>{{ item.appUser }}</td>
+          <td class="text-center text-body-small">{{ item.updateTimestamp }}</td>
+          <td class="text-center text-body-small">{{ item.appUser }}</td>
           <td>
-            <v-btn icon variant="text" @click="saveExistingRow(item)">
-              <v-icon>mdi-check-bold</v-icon>
-            </v-btn>
-            <v-btn icon variant="text" @click="cancelUpdateExistingRow(item)">
-              <v-icon>mdi-close-thick</v-icon>
-            </v-btn>
+            <v-sheet class="d-flex">
+              <v-btn icon variant="text" @click="saveExistingRow(item)">
+                <v-icon>mdi-check-bold</v-icon>
+              </v-btn>
+              <v-btn icon variant="text" @click="cancelUpdateExistingRow(item)">
+                <v-icon>mdi-close-thick</v-icon>
+              </v-btn>
+            </v-sheet>
           </td>
         </template>
         <template v-else>
           <!-- Default display for existing rows -->
-          <td class="text-center">{{ item.id }}</td>
-          <td class="text-center">{{ item.brand }}</td>
-          <td class="text-center">{{ item.number }}</td>
-          <td class="text-center">{{ item.carryingCapacity }}</td>
-          <td class="text-center"><v-checkbox-btn v-model="item.isActive" disabled/></td>
-          <td class="text-center">{{ item.updateTimestamp }}</td>
-          <td class="text-center">{{ item.appUser }}</td>
+          <td class="text-center text-body-small">{{ item.id }}</td>
+          <td class="text-center text-body-small">{{ item.brand }}</td>
+          <td class="text-center text-body-small">{{ item.number }}</td>
+          <td class="text-center text-body-small">{{ item.carryingCapacity }}</td>
+          <td class="text-center text-body-small"><v-checkbox-btn v-model="item.isActive" disabled/></td>
+          <td class="text-center text-body-small">{{ item.updateTimestamp }}</td>
+          <td class="text-center text-body-small">{{ item.appUser }}</td>
           <td class="text-center">
-            <v-btn icon variant="text" @click="updateExistingRow(item)">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn icon variant="text" @click="removeExistingRow(item, index)">
-              <v-icon>mdi-close-thick</v-icon>
-            </v-btn>
+            <v-sheet class="d-flex">
+              <v-btn icon variant="text" @click="updateExistingRow(item)">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+                <v-icon>mdi-close-thick</v-icon>
+              </v-btn>
+            </v-sheet>
           </td>
         </template>
       </tr>

@@ -70,7 +70,7 @@ const addNewRow = () => {
           </v-label>
         </v-col>
         <v-col cols="2">
-          <v-text-field variant="solo" v-model="filterNumber" bg-color="background"/>
+          <v-text-field variant="solo" v-model="filterNumber" bg-color="background" rounded="xl"/>
         </v-col>
         <v-col cols="auto">
           <v-btn color="primary" @click="fetchForklifts" rounded="lg">

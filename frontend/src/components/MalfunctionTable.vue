@@ -27,12 +27,12 @@ const typedProps = defineProps({
 const itemsLength = computed(() => typedProps.malfunctions.length)
 
 const headers = [
-  { title: 'Код записи', value: 'id', align: 'center' },
-  { title: 'Начало', value: 'startTimestamp', align: 'center' },
-  { title: 'Окончание', value: 'endTimestamp', align: 'center' },
-  { title: 'Время простоя', value: 'downtime', align: 'center' },
-  { title: 'Причина', value: 'description', align: 'center' },
-  { title: 'Действия', value: 'actions', align: 'center' }
+  { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Начало', value: 'startTimestamp', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Окончание', value: 'endTimestamp', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Время простоя', value: 'downtime', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Причина', value: 'description', align: 'center', headerProps: { class: 'text-body-small' } },
+  { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
 ]
 
 const updateExistingRow = (item) => {
@@ -68,18 +68,20 @@ const removeExistingRow = async (item, index) => {
       no-data-text="Нет записей">
     <template v-slot:item="{ item, index }">
       <tr>
-        <td class="text-center">{{ item.id }}</td>
-        <td class="text-center">{{ item.startTimestamp }}</td>
-        <td class="text-center">{{ item.endTimestamp }}</td>
-        <td class="text-center">{{ item.downtime }}</td>
-        <td class="text-center">{{ item.description }}</td>
-        <td class="text-center">
-          <v-btn icon variant="text" @click="updateExistingRow(item)">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-          <v-btn icon variant="text" @click="removeExistingRow(item, index)">
-            <v-icon>mdi-close-thick</v-icon>
-          </v-btn>
+        <td class="text-center text-body-small">{{ item.id }}</td>
+        <td class="text-center text-body-small">{{ item.startTimestamp }}</td>
+        <td class="text-center text-body-small">{{ item.endTimestamp }}</td>
+        <td class="text-center text-body-small">{{ item.downtime }}</td>
+        <td class="text-center text-body-small">{{ item.description }}</td>
+        <td class="text-center text-body-small">
+          <v-sheet class="d-flex">
+            <v-btn icon variant="text" @click="updateExistingRow(item)">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+              <v-icon>mdi-close-thick</v-icon>
+            </v-btn>
+          </v-sheet>
         </td>
       </tr>
     </template>
