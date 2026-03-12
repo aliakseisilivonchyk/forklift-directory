@@ -8,8 +8,10 @@ const forklifts = ref([]);
 const error = ref(null);
 const selectedForkliftId = ref('');
 const selectedForkliftNumber = ref('');
+const isLoading = ref(false);
 
 const fetchForklifts = async () => {
+  isLoading.value = true;
   forklifts.value = [];
   error.value = null;
 
@@ -26,6 +28,8 @@ const fetchForklifts = async () => {
     console.error(err);
     error.value = 'Failed to fetch user data.';
   }
+
+  isLoading.value = false;
 }
 
 const clearFilter = async () => {
@@ -90,7 +94,7 @@ const addNewRow = () => {
     <v-col class="flex-grow-1 d-flex">
       <v-row>
         <v-col class="d-flex overflow-auto">
-          <ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/>
+          <ForkliftTable :forklifts="forklifts" :isLoading="isLoading" @updateSelected="updateSelectedForklift"/>
         </v-col>
         <v-col class="d-flex overflow-auto">
           <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>

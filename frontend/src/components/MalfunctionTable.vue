@@ -17,6 +17,10 @@ const typedProps = defineProps({
   malfunctions: {
     type: Array as PropType<Array<Malfunction>>,
     default: () => []
+  },
+  isLoading: {
+    type: Boolean,
+    default: () => false
   }
 });
 
@@ -58,7 +62,10 @@ const removeExistingRow = async (item, index) => {
       :items-length="itemsLength"
       hide-default-footer
       fixed-header
-      density="compact">
+      density="compact"
+      :loading="typedProps.isLoading"
+      loading-text="Загрузка..."
+      no-data-text="Нет записей">
     <template v-slot:item="{ item, index }">
       <tr>
         <td class="text-center">{{ item.id }}</td>

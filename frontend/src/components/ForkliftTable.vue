@@ -17,6 +17,10 @@ const typedProps = defineProps({
   forklifts: {
     type: Array as PropType<Array<Forklift>>,
     default: () => []
+  },
+  isLoading: {
+    type: Boolean,
+    default: () => false
   }
 });
 
@@ -120,6 +124,9 @@ const removeExistingRow = async (item, index) => {
       fixed-header
       select-strategy="single"
       density="compact"
+      :loading="typedProps.isLoading"
+      loading-text="Загрузка..."
+      no-data-text="Нет записей"
       @click:row="selectForklift">
     <template v-slot:item="{ item, index }">
       <tr @click="selectForklift(item)">

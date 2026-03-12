@@ -16,12 +16,14 @@ const typedProps = defineProps({
 
 const malfunctions = ref([]);
 const error = ref(null);
+const isLoading = ref(false);
 
 watch(() => typedProps.forkliftId, async (newId, oldId) => {
   await fetchMalfunctions(newId)
 });
 
 const fetchMalfunctions = async (id) => {
+  isLoading.value = true;
   malfunctions.value = [];
   error.value = null;
 
@@ -37,6 +39,7 @@ const fetchMalfunctions = async (id) => {
     console.error(err);
     error.value = 'Failed to fetch user data.';
   }
+  isLoading.value = false;
 }
 </script>
 
@@ -47,7 +50,7 @@ const fetchMalfunctions = async (id) => {
       <MalfunctionDialog :forkliftId="typedProps.forkliftId"/>
     </v-col>
     <v-col class="flex-grow-1 d-flex overflow-auto">
-      <MalfunctionTable :forkliftId="typedProps.forkliftId" :malfunctions="malfunctions"/>
+      <MalfunctionTable :forkliftId="typedProps.forkliftId" :malfunctions="malfunctions" :isLoading="isLoading"/>
     </v-col>
   </v-row>
 </template>
