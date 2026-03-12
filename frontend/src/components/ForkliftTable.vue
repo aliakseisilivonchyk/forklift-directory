@@ -23,14 +23,14 @@ const typedProps = defineProps({
 const itemsLength = computed(() => typedProps.forklifts.length)
 
 const headers = [
-  { title: 'Код записи', value: 'id' },
-  { title: 'Марка', value: 'brand' },
-  { title: 'Номер', value: 'number' },
-  { title: 'Грузоподъемность', value: 'carryingCapacity' },
-  { title: 'Активен', value: 'isActive' },
-  { title: 'Время и Дата изменения', value: 'updateTimestamp' },
-  { title: 'Пользователь', value: 'appUser' },
-  { title: 'Действия', value: 'actions' }
+  { title: 'Код записи', value: 'id', align: 'center' },
+  { title: 'Марка', value: 'brand', align: 'center' },
+  { title: 'Номер', value: 'number', align: 'center' },
+  { title: 'Грузоподъемность', value: 'carryingCapacity', align: 'center' },
+  { title: 'Активен', value: 'isActive', align: 'center' },
+  { title: 'Время и Дата изменения', value: 'updateTimestamp', align: 'center' },
+  { title: 'Пользователь', value: 'appUser', align: 'center' },
+  { title: 'Действия', value: 'actions', align: 'center' }
 ]
 
 const emit = defineEmits(['updateSelected']);
@@ -161,14 +161,14 @@ const removeExistingRow = async (item, index) => {
         </template>
         <template v-else>
           <!-- Default display for existing rows -->
-          <td>{{ item.id }}</td>
-          <td>{{ item.brand }}</td>
-          <td>{{ item.number }}</td>
-          <td>{{ item.carryingCapacity }}</td>
-          <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
-          <td>{{ item.updateTimestamp }}</td>
-          <td>{{ item.appUser }}</td>
-          <td>
+          <td class="text-center">{{ item.id }}</td>
+          <td class="text-center">{{ item.brand }}</td>
+          <td class="text-center">{{ item.number }}</td>
+          <td class="text-center">{{ item.carryingCapacity }}</td>
+          <td class="text-center"><v-checkbox-btn v-model="item.isActive" disabled/></td>
+          <td class="text-center">{{ item.updateTimestamp }}</td>
+          <td class="text-center">{{ item.appUser }}</td>
+          <td class="text-center">
             <v-btn icon variant="text" @click="updateExistingRow(item)">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>

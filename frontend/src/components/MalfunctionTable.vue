@@ -23,12 +23,12 @@ const typedProps = defineProps({
 const itemsLength = computed(() => typedProps.malfunctions.length)
 
 const headers = [
-  { title: 'Код записи', value: 'id' },
-  { title: 'Начало', value: 'startTimestamp' },
-  { title: 'Окончание', value: 'endTimestamp' },
-  { title: 'Время простоя', value: 'downtime' },
-  { title: 'Причина', value: 'description' },
-  { title: 'Действия', value: 'actions' }
+  { title: 'Код записи', value: 'id', align: 'center' },
+  { title: 'Начало', value: 'startTimestamp', align: 'center' },
+  { title: 'Окончание', value: 'endTimestamp', align: 'center' },
+  { title: 'Время простоя', value: 'downtime', align: 'center' },
+  { title: 'Причина', value: 'description', align: 'center' },
+  { title: 'Действия', value: 'actions', align: 'center' }
 ]
 
 const updateExistingRow = (item) => {
@@ -61,12 +61,12 @@ const removeExistingRow = async (item, index) => {
       density="compact">
     <template v-slot:item="{ item, index }">
       <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.startTimestamp }}</td>
-        <td>{{ item.endTimestamp }}</td>
-        <td>{{ item.downtime }}</td>
-        <td>{{ item.description }}</td>
-        <td>
+        <td class="text-center">{{ item.id }}</td>
+        <td class="text-center">{{ item.startTimestamp }}</td>
+        <td class="text-center">{{ item.endTimestamp }}</td>
+        <td class="text-center">{{ item.downtime }}</td>
+        <td class="text-center">{{ item.description }}</td>
+        <td class="text-center">
           <v-btn icon variant="text" @click="updateExistingRow(item)">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
