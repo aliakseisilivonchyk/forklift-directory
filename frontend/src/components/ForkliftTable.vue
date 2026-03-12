@@ -129,7 +129,7 @@ const removeExistingRow = async (item, index) => {
           <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
           <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
           <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
-          <td><v-checkbox-btn v-model="item.isActive"/></td>
+          <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td></td>
           <td></td>
           <td>
@@ -147,7 +147,7 @@ const removeExistingRow = async (item, index) => {
           <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
           <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
           <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
-          <td><v-checkbox-btn v-model="item.isActive"/></td>
+          <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td>{{ item.updateTimestamp }}</td>
           <td>{{ item.appUser }}</td>
           <td>
@@ -165,7 +165,7 @@ const removeExistingRow = async (item, index) => {
           <td>{{ item.brand }}</td>
           <td>{{ item.number }}</td>
           <td>{{ item.carryingCapacity }}</td>
-          <td><v-checkbox-btn v-model="item.isActive"/></td>
+          <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td>{{ item.updateTimestamp }}</td>
           <td>{{ item.appUser }}</td>
           <td>
