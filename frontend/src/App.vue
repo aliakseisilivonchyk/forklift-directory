@@ -29,7 +29,7 @@ const tab = ref('forklift-directory')
                 </v-sheet>
               </v-col>
               <v-col cols="7/8" class="d-flex">
-                <v-sheet color="secondary" rounded="lg" class="flex-grow-1 d-flex">
+                <v-sheet color="secondary" rounded="lg" class="flex-grow-1 d-flex pa-6">
                   <v-tabs-window v-model="tab" class="flex-grow-1 d-flex">
                     <v-tabs-window-item value="users"><h1>Пользователи</h1></v-tabs-window-item>
                     <v-tabs-window-item value="alerts"><h1>Уведомления и напоминания</h1></v-tabs-window-item>

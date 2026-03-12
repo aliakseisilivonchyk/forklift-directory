@@ -89,10 +89,10 @@ const addNewRow = () => {
     </v-col>
     <v-col class="flex-grow-1 d-flex">
       <v-row>
-        <v-col cols="6" class="d-flex">
+        <v-col class="d-flex overflow-auto">
           <ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/>
         </v-col>
-        <v-col cols="6" class="d-flex">
+        <v-col class="d-flex overflow-auto">
           <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>
         </v-col>
       </v-row>
