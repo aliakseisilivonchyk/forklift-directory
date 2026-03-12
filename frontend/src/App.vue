@@ -9,14 +9,14 @@ const tab = ref('forklift-directory')
 <template>
   <v-app>
     <v-main>
-      <v-container fluid class="fill-height">
-        <v-row>
-          <v-col cols="12">
+      <v-container fluid class="fill-height d-flex">
+        <v-row class="flex-column align-stretch justify-start">
+          <v-col class="flex-grow-0 flex-shrink-1">
             <ProfileHeader/>
           </v-col>
-          <v-col cols="12">
+          <v-col class="flex-grow-1 d-flex">
             <v-row>
-              <v-col cols="1/8">
+              <v-col cols="1/8" class="d-flex">
                 <v-sheet color="secondary" rounded="lg">
                   <v-tabs v-model="tab" color="primary" direction="vertical" bg-color="none" hide-slider>
                     <v-tab value="users">Пользователи</v-tab>
@@ -28,29 +28,19 @@ const tab = ref('forklift-directory')
                   </v-tabs>
                 </v-sheet>
               </v-col>
-              <v-col cols="7/8">
-                <v-tabs-window v-model="tab">
-                  <v-tabs-window-item value="users">
-                    <v-sheet color="secondary" rounded="lg"><h1>Пользователи</h1></v-sheet>
-                  </v-tabs-window-item>
-                  <v-tabs-window-item value="alerts">
-                    <v-sheet color="secondary" rounded="lg"><h1>Уведомления и напоминания</h1></v-sheet>
-                  </v-tabs-window-item>
-                  <v-tabs-window-item value="settings">
-                    <v-sheet color="secondary" rounded="lg"><h1>Настройки АИС ОГПА</h1></v-sheet>
-                  </v-tabs-window-item>
-                  <v-tabs-window-item value="forklift-directory">
-                    <v-sheet color="secondary" rounded="lg">
-                      <ForkliftDirectory/>
-                    </v-sheet>
-                  </v-tabs-window-item>
-                  <v-tabs-window-item value="backup">
-                    <v-sheet color="secondary" rounded="lg"><h1>Резервное копирование и восстановление</h1></v-sheet>
-                  </v-tabs-window-item>
-                  <v-tabs-window-item value="directories">
-                    <v-sheet color="secondary" rounded="lg"><h1>Справочники</h1></v-sheet>
-                  </v-tabs-window-item>
-                </v-tabs-window>
+              <v-col cols="7/8" class="d-flex">
+                <v-sheet color="secondary" rounded="lg" class="flex-grow-1">
+                  <v-tabs-window v-model="tab" class="d-flex">
+                    <v-tabs-window-item value="users"><h1>Пользователи</h1></v-tabs-window-item>
+                    <v-tabs-window-item value="alerts"><h1>Уведомления и напоминания</h1></v-tabs-window-item>
+                    <v-tabs-window-item value="settings"><h1>Настройки АИС ОГПА</h1></v-tabs-window-item>
+                    <v-tabs-window-item value="forklift-directory">
+                        <ForkliftDirectory/>
+                    </v-tabs-window-item>
+                    <v-tabs-window-item value="backup"><h1>Резервное копирование и восстановление</h1></v-tabs-window-item>
+                    <v-tabs-window-item value="directories"><h1>Справочники</h1></v-tabs-window-item>
+                  </v-tabs-window>
+                </v-sheet>
               </v-col>
             </v-row>
           </v-col>
