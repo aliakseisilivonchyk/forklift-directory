@@ -41,9 +41,11 @@ const fetchMalfunctions = async (id) => {
 </script>
 
 <template>
-  <h1>Простои по погрузчику {{typedProps.forkliftNumber}}</h1>
-  <MalfunctionDialog :forkliftId="typedProps.forkliftId"/>
-  <MalfunctionTable :forkliftId="typedProps.forkliftId" :malfunctions="malfunctions"/>
+  <v-row class="flex-column align-stretch justify-start">
+    <v-col class="flex-grow-0 flex-shrink-1"><h1>Простои по погрузчику {{typedProps.forkliftNumber}}</h1></v-col>
+    <v-col class="flex-grow-0 flex-shrink-1"><MalfunctionDialog :forkliftId="typedProps.forkliftId"/></v-col>
+    <v-col class="flex-grow-1"><MalfunctionTable :forkliftId="typedProps.forkliftId" :malfunctions="malfunctions"/></v-col>
+  </v-row>
 </template>
 
 <style scoped>

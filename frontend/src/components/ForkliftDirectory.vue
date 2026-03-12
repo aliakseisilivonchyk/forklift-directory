@@ -54,11 +54,11 @@ const addNewRow = () => {
 </script>
 
 <template>
-  <v-row>
-    <v-col cols="12">
+  <v-row class="flex-column align-stretch justify-start">
+    <v-col class="flex-grow-0 flex-shrink-1">
       <h1>Справочник погрузчиков</h1>
     </v-col>
-    <v-col>
+    <v-col class="flex-grow-0 flex-shrink-1">
       <v-row>
         <v-col cols="auto">
           <v-label>
@@ -80,20 +80,20 @@ const addNewRow = () => {
             <u>Сбросить фильтр</u>
           </v-btn>
         </v-col>
-        <v-col cols="12">
-          <v-btn @click="addNewRow" color="primary" rounded="lg">
-            Добавить
-          </v-btn>
+      </v-row>
+    </v-col>
+    <v-col class="flex-grow-0 flex-shrink-1">
+      <v-btn @click="addNewRow" color="primary" rounded="lg">
+        Добавить
+      </v-btn>
+    </v-col>
+    <v-col class="flex-grow-1 d-flex">
+      <v-row>
+        <v-col cols="6" class="d-flex">
+          <ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/>
         </v-col>
-        <v-col>
-          <v-row>
-            <v-col cols="6">
-              <ForkliftTable :forklifts="forklifts" @updateSelected="updateSelectedForklift"/>
-            </v-col>
-            <v-col cols="6">
-              <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>
-            </v-col>
-          </v-row>
+        <v-col cols="6" class="d-flex">
+          <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>
         </v-col>
       </v-row>
     </v-col>

@@ -29,12 +29,12 @@ const tab = ref('forklift-directory')
                 </v-sheet>
               </v-col>
               <v-col cols="7/8" class="d-flex">
-                <v-sheet color="secondary" rounded="lg" class="flex-grow-1">
-                  <v-tabs-window v-model="tab" class="d-flex">
+                <v-sheet color="secondary" rounded="lg" class="flex-grow-1 d-flex">
+                  <v-tabs-window v-model="tab" class="flex-grow-1 d-flex">
                     <v-tabs-window-item value="users"><h1>Пользователи</h1></v-tabs-window-item>
                     <v-tabs-window-item value="alerts"><h1>Уведомления и напоминания</h1></v-tabs-window-item>
                     <v-tabs-window-item value="settings"><h1>Настройки АИС ОГПА</h1></v-tabs-window-item>
-                    <v-tabs-window-item value="forklift-directory">
+                    <v-tabs-window-item value="forklift-directory" class="flex-grow-1 d-flex">
                         <ForkliftDirectory/>
                     </v-tabs-window-item>
                     <v-tabs-window-item value="backup"><h1>Резервное копирование и восстановление</h1></v-tabs-window-item>
