@@ -3,7 +3,7 @@ package com.github.aliakseisilivonchyk.forkliftdirectory.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,7 +16,7 @@ public class Forklift {
     private String number;
     private float carryingCapacity;
     private boolean isActive;
-    private Date updateTimestamp;
+    private LocalDateTime updateTimestamp;
 
     @OneToOne
     @JoinColumn(name = "app_user_id")

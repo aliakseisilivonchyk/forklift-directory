@@ -10,13 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ForkliftDirectoryService {
+
+    private final static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final ForkliftRepository forkliftRepository;
     private final MalfunctionRepository malfunctionRepository;
@@ -45,7 +48,7 @@ public class ForkliftDirectoryService {
 
     public ForkliftDto createForklift(ForkliftDto forkliftDto) {
         Forklift forklift = convertToModel(forkliftDto);
-        forklift.setUpdateTimestamp(new Date());
+        forklift.setUpdateTimestamp(LocalDateTime.now());
         Forklift savedForklift = forkliftRepository.save(forklift);
         return convertToDto(savedForklift);
     }
@@ -56,7 +59,7 @@ public class ForkliftDirectoryService {
 
     public ForkliftDto updateForklift(int forkliftId, ForkliftDto forkliftDto) {
         Forklift existingForklift = forkliftRepository.findById(forkliftId).get();
-        existingForklift.setUpdateTimestamp(new Date());
+        existingForklift.setUpdateTimestamp(LocalDateTime.now());
         existingForklift.setBrand(forkliftDto.brand());
         existingForklift.setNumber(forkliftDto.number());
         existingForklift.setCarryingCapacity(forkliftDto.carryingCapacity());
@@ -78,8 +81,8 @@ public class ForkliftDirectoryService {
 
     public MalfunctionDto updateMalfunction(int malfunctionId, MalfunctionDto malfunctionDto) {
         Malfunction existingMalfunction = malfunctionRepository.findById(malfunctionId).get();
-        existingMalfunction.setStartTimestamp(malfunctionDto.startTimestamp());
-        existingMalfunction.setEndTimestamp(malfunctionDto.endTimestamp());
+        existingMalfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER));
+        existingMalfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER));
         existingMalfunction.setDescription(malfunctionDto.description());
         Malfunction savedMalfunction = malfunctionRepository.save(existingMalfunction);
         return convertToDto(savedMalfunction);
@@ -87,7 +90,7 @@ public class ForkliftDirectoryService {
 
     private static ForkliftDto convertToDto(Forklift forklift) {
         return new ForkliftDto(forklift.getId(), forklift.getBrand(), forklift.getNumber(),
-                forklift.getCarryingCapacity(), forklift.isActive(), forklift.getUpdateTimestamp());
+                forklift.getCarryingCapacity(), forklift.isActive(), forklift.getUpdateTimestamp().format(DATE_FORMATTER));
     }
 
     private static Forklift convertToModel(ForkliftDto forkliftDto) {
@@ -101,14 +104,14 @@ public class ForkliftDirectoryService {
     }
 
     private static MalfunctionDto convertToDto(Malfunction malfunction) {
-        return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp(), malfunction.getEndTimestamp(),
-                malfunction.getDowntime(), malfunction.getDescription());
+        return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp().format(DATE_FORMATTER),
+                malfunction.getEndTimestamp().format(DATE_FORMATTER), malfunction.getDowntime(), malfunction.getDescription());
     }
 
     private static Malfunction convertToModel(MalfunctionDto malfunctionDto) {
         Malfunction malfunction = new Malfunction();
-        malfunction.setStartTimestamp(malfunctionDto.startTimestamp());
-        malfunction.setEndTimestamp(malfunctionDto.endTimestamp());
+        malfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER));
+        malfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER));
         malfunction.setDescription(malfunctionDto.description());
 
         return malfunction;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Formula;
 import java.time.Duration;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -13,8 +13,8 @@ public class Malfunction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Date startTimestamp;
-    private Date endTimestamp;
+    private LocalDateTime startTimestamp;
+    private LocalDateTime endTimestamp;
 
     @Formula("case when end_timestamp IS NOT NULL then age(end_timestamp, start_timestamp) else age(start_timestamp) end")
     private Duration downtime;
