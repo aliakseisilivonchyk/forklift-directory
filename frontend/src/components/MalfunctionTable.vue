@@ -57,7 +57,8 @@ const removeExistingRow = async (item, index) => {
       :items="typedProps.malfunctions"
       :items-length="itemsLength"
       hide-default-footer
-      fixed-header>
+      fixed-header
+      density="compact">
     <template v-slot:item="{ item, index }">
       <tr>
         <td>{{ item.id }}</td>

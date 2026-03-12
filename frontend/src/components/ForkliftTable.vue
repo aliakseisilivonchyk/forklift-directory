@@ -27,7 +27,7 @@ const headers = [
   { title: 'Марка', value: 'brand' },
   { title: 'Номер', value: 'number' },
   { title: 'Грузоподъемность', value: 'carryingCapacity' },
-  { title: 'Активен', key: 'isActive', value: 'isActive' },
+  { title: 'Активен', value: 'isActive' },
   { title: 'Время и Дата изменения', value: 'updateTimestamp' },
   { title: 'Пользователь', value: 'appUser' },
   { title: 'Действия', value: 'actions' }
@@ -119,16 +119,17 @@ const removeExistingRow = async (item, index) => {
       hide-default-footer
       fixed-header
       select-strategy="single"
+      density="compact"
       @click:row="selectForklift">
     <template v-slot:item="{ item, index }">
       <tr @click="selectForklift(item)">
         <template v-if="item.isNew">
           <!-- Display inputs for the new row -->
           <td></td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
+          <td><v-checkbox-btn v-model="item.isActive"/></td>
           <td></td>
           <td></td>
           <td>
@@ -143,10 +144,10 @@ const removeExistingRow = async (item, index) => {
         <template v-else-if="item.isEdited">
           <!-- Display inputs for the edited row -->
           <td>{{ item.id }}</td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line></v-text-field></td>
-          <td><v-text-field variant="outlined" v-model="item.isActive" hide-details dense single-line></v-text-field></td>
+          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line/></td>
+          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line/></td>
+          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line/></td>
+          <td><v-checkbox-btn v-model="item.isActive"/></td>
           <td>{{ item.updateTimestamp }}</td>
           <td>{{ item.appUser }}</td>
           <td>
@@ -164,7 +165,7 @@ const removeExistingRow = async (item, index) => {
           <td>{{ item.brand }}</td>
           <td>{{ item.number }}</td>
           <td>{{ item.carryingCapacity }}</td>
-          <td>{{ item.isActive }}</td>
+          <td><v-checkbox-btn v-model="item.isActive"/></td>
           <td>{{ item.updateTimestamp }}</td>
           <td>{{ item.appUser }}</td>
           <td>
