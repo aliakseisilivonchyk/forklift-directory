@@ -16,8 +16,8 @@ public class Malfunction {
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
 
-    @Formula("case when end_timestamp IS NOT NULL then age(end_timestamp, start_timestamp) else age(start_timestamp) end")
-    private Duration downtime;
+    @Formula("case when end_timestamp IS NOT NULL then EXTRACT(epoch FROM age(end_timestamp, start_timestamp))*1000 else EXTRACT(epoch FROM age(end_timestamp))*1000 end")
+    private long downtime;
     private String description;
 
     @ManyToOne

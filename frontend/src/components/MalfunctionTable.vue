@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import {computed, PropType} from "vue";
+import {computed, PropType, watch} from "vue";
+import humanizeDuration from 'humanize-duration';
 
 interface Malfunction {
   id: bigint
   startTimestamp: string
   endTimestamp?: string
-  downtime?: string
+  downtime?: number
+  downtimeString?: string
   description: number
 }
 
@@ -25,6 +27,12 @@ const typedProps = defineProps({
 });
 
 const itemsLength = computed(() => typedProps.malfunctions.length)
+
+watch(() => typedProps.malfunctions, async (newMalfunctions, oldId) => {
+  newMalfunctions.forEach(function(malfunction, index, array) {
+    malfunction.downtimeString = humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: false });
+  })
+});
 
 const headers = [
   { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
@@ -71,7 +79,7 @@ const removeExistingRow = async (item, index) => {
         <td class="text-center text-body-small">{{ item.id }}</td>
         <td class="text-center text-body-small">{{ item.startTimestamp }}</td>
         <td class="text-center text-body-small">{{ item.endTimestamp }}</td>
-        <td class="text-center text-body-small">{{ item.downtime }}</td>
+        <td class="text-center text-body-small">{{ item.downtimeString }}</td>
         <td class="text-center text-body-small">{{ item.description }}</td>
         <td class="text-center text-body-small">
           <v-sheet class="d-flex">
