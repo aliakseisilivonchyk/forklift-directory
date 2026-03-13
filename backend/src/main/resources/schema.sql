@@ -15,14 +15,14 @@ CREATE TABLE forklift (
     number VARCHAR,
     carrying_capacity NUMERIC(10, 2),
     is_active BOOLEAN DEFAULT TRUE,
-    update_timestamp TIMESTAMP DEFAULT NOW(),
+    update_timestamp TIMESTAMPTZ DEFAULT NOW(),
     app_user_id INTEGER REFERENCES app_user(id)
 );
 
 CREATE TABLE malfunction (
     id SERIAL PRIMARY KEY,
-    start_timestamp TIMESTAMP DEFAULT NOW(),
-    end_timestamp TIMESTAMP,
+    start_timestamp TIMESTAMPTZ DEFAULT NOW(),
+    end_timestamp TIMESTAMPTZ,
     description TEXT,
     forklift_id INTEGER REFERENCES forklift(id)
 );

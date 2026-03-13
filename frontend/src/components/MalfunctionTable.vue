@@ -30,7 +30,7 @@ const itemsLength = computed(() => typedProps.malfunctions.length)
 
 watch(() => typedProps.malfunctions, async (newMalfunctions, oldId) => {
   newMalfunctions.forEach(function(malfunction, index, array) {
-    malfunction.downtimeString = humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: false });
+    malfunction.downtimeString = humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: true });
   })
 });
 

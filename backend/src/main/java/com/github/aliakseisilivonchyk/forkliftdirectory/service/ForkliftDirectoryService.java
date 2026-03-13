@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -81,8 +82,10 @@ public class ForkliftDirectoryService {
 
     public MalfunctionDto updateMalfunction(int malfunctionId, MalfunctionDto malfunctionDto) {
         Malfunction existingMalfunction = malfunctionRepository.findById(malfunctionId).get();
-        existingMalfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER));
-        existingMalfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER));
+        existingMalfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER)
+                .atZone(ZoneId.systemDefault()));
+        existingMalfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER)
+                .atZone(ZoneId.systemDefault()));
         existingMalfunction.setDescription(malfunctionDto.description());
         Malfunction savedMalfunction = malfunctionRepository.save(existingMalfunction);
         return convertToDto(savedMalfunction);
@@ -104,14 +107,19 @@ public class ForkliftDirectoryService {
     }
 
     private static MalfunctionDto convertToDto(Malfunction malfunction) {
+        String endTimestamp = malfunction.getEndTimestamp() != null ? malfunction.getEndTimestamp().format(DATE_FORMATTER) : "";
         return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp().format(DATE_FORMATTER),
-                malfunction.getEndTimestamp().format(DATE_FORMATTER), malfunction.getDowntime(), malfunction.getDescription());
+                 endTimestamp, malfunction.getDowntime(), malfunction.getDescription());
     }
 
     private static Malfunction convertToModel(MalfunctionDto malfunctionDto) {
         Malfunction malfunction = new Malfunction();
-        malfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER));
-        malfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER));
+        malfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER)
+                .atZone(ZoneId.systemDefault()));
+        if (malfunctionDto.endTimestamp() != null && !malfunctionDto.endTimestamp().isEmpty()) {
+            malfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER)
+                    .atZone(ZoneId.systemDefault()));
+        }
         malfunction.setDescription(malfunctionDto.description());
 
         return malfunction;
