@@ -18,13 +18,13 @@ const typedProps = defineProps({
   }
 });
 
-const computedMalfunctionsLength = computed(() => typedProps.malfunctions.length)
+const computedMalfunctionsLength = computed(() => typedProps.malfunctions.length);
 const computedMalfunctions = computed(() => typedProps.malfunctions.map(malfunction => {
   return {
     ...malfunction,
     downtimeString: humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: true })
   }
-}))
+}));
 
 const emit = defineEmits(['update']);
 
@@ -35,25 +35,25 @@ const headers = [
   { title: 'Время простоя', value: 'downtime', align: 'center', headerProps: { class: 'text-body-small' } },
   { title: 'Причина', value: 'description', align: 'center', headerProps: { class: 'text-body-small' } },
   { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
-]
+];
 
-const updateExistingRow = (row) => {
-  emit('update', row);
+const updateMalfunction = (malfunctionToUpdate: Malfunction) => {
+  emit('update', malfunctionToUpdate);
 };
 
-const removeExistingRow = async (item, index) => {
+const deleteMalfunction = async (malfunctionToDelete: Malfunction, index: number) => {
   try {
-    const response = await fetch(`/api/forklifts/${typedProps.forkliftId}/malfunctions/${item.id}`, {
+    const response = await fetch(`/api/forklifts/${typedProps.forkliftId}/malfunctions/${malfunctionToDelete.id}`, {
       method: 'DELETE'
     });
 
     if (response.ok || response.status === 204) {
       typedProps.malfunctions.splice(index, 1);
     } else {
-      throw new Error('Deletion failed on server');
+      throw new Error('Failed to delete malfunction.');
     }
   } catch (error) {
-    console.error('There was an error!', error);
+    console.error('Error caught: ', error);
   }
 };
 </script>
@@ -78,10 +78,10 @@ const removeExistingRow = async (item, index) => {
         <td class="text-center text-body-small">{{ item.description }}</td>
         <td class="text-center text-body-small">
           <v-sheet class="d-flex">
-            <v-btn icon variant="text" @click="updateExistingRow(item)">
+            <v-btn icon variant="text" @click="updateMalfunction(item)">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+            <v-btn icon variant="text" @click="deleteMalfunction(item, index)">
               <v-icon>mdi-close-thick</v-icon>
             </v-btn>
           </v-sheet>

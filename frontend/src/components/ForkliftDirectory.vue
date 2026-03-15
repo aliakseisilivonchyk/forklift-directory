@@ -1,32 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import ForkliftTable from "@/components/ForkliftTable.vue";
 import MalfunctionDirectory from "@/components/MalfunctionDirectory.vue";
 import {ref} from 'vue';
+import {Forklift} from "@/types/Forklift";
 
-const filterNumber = ref('');
-const forklifts = ref([]);
-const error = ref(null);
-const selectedForkliftId = ref('');
-const selectedForkliftNumber = ref('');
-const isLoading = ref(false);
+const filterNumber = ref<string>('');
+const forklifts = ref<Forklift[]>([]);
+const selectedForkliftId = ref<string>('');
+const selectedForkliftNumber = ref<string>('');
+const isLoading = ref<boolean>(false);
 
 const fetchForklifts = async () => {
   isLoading.value = true;
   forklifts.value = [];
-  error.value = null;
 
   try {
     const params = new URLSearchParams({ number: filterNumber.value }).toString();
     const response = await fetch(`/api/forklifts?${params}`);
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error('Failed to fetch forklifts.');
     }
 
     forklifts.value = await response.json();
-  } catch (err) {
-    console.error(err);
-    error.value = 'Failed to fetch user data.';
+  } catch (error) {
+    console.error('Error caught: ', error);
   }
 
   isLoading.value = false;
@@ -38,13 +36,13 @@ const clearFilter = async () => {
   await fetchForklifts();
 }
 
-const updateSelectedForklift = (id, number) => {
+const updateSelectedForklift = (id: string, number: string) => {
   selectedForkliftId.value = id;
   selectedForkliftNumber.value = number;
 }
 
 const addNewRow = () => {
-  const newRow = {
+  const newRow: Forklift = {
     brand: '',
     number: '',
     carryingCapacity: 0,
@@ -94,10 +92,15 @@ const addNewRow = () => {
     <v-col class="flex-grow-1 d-flex">
       <v-row>
         <v-col class="d-flex overflow-auto">
-          <ForkliftTable :forklifts="forklifts" :isLoading="isLoading" @updateSelected="updateSelectedForklift"/>
+          <ForkliftTable
+              :forklifts="forklifts"
+              :isLoading="isLoading"
+              @updateSelected="updateSelectedForklift"/>
         </v-col>
         <v-col class="d-flex overflow-auto">
-          <MalfunctionDirectory :forkliftId="selectedForkliftId" :forkliftNumber="selectedForkliftNumber"/>
+          <MalfunctionDirectory
+              :forkliftId="selectedForkliftId"
+              :forkliftNumber="selectedForkliftNumber"/>
         </v-col>
       </v-row>
     </v-col>

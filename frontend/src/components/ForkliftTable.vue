@@ -1,17 +1,6 @@
 <script setup lang="ts">
 import {computed, PropType} from "vue";
-
-interface Forklift {
-  id: bigint
-  brand: string
-  number: string
-  carryingCapacity: number
-  isActive: boolean
-  updateTimestamp: string
-  appUser?: string
-  isNew?: boolean
-  isEdited?: boolean
-}
+import {Forklift} from "@/types/Forklift";
 
 const typedProps = defineProps({
   forklifts: {
@@ -24,7 +13,7 @@ const typedProps = defineProps({
   }
 });
 
-const itemsLength = computed(() => typedProps.forklifts.length)
+const itemsLength = computed(() => typedProps.forklifts.length);
 
 const headers = [
   { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
@@ -35,22 +24,22 @@ const headers = [
   { title: 'Время и Дата изменения', value: 'updateTimestamp', align: 'center', headerProps: { class: 'text-body-small' } },
   { title: 'Пользователь', value: 'appUser', align: 'center', headerProps: { class: 'text-body-small' } },
   { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
-]
+];
 
 const emit = defineEmits(['updateSelected']);
 
-const selectForklift = (item) => {
+const selectForklift = (item: Forklift) => {
   //TODO: row.select(!row.isSelected);
   if(!item.isNew) {
     emit('updateSelected', item.id, item.number);
   }
-}
+};
 
 const cancelNewRow = () => {
   typedProps.forklifts.pop();
 };
 
-const saveNewRow = async (item) => {
+const saveForklift = async (item: Forklift) => {
   try {
     const response = await fetch(`/api/forklifts`, {
       method: 'POST',
@@ -67,19 +56,19 @@ const saveNewRow = async (item) => {
       throw new Error('Deletion failed on server');
     }
   } catch (error) {
-    console.error('There was an error!', error);
+    console.error('Error caught: ', error);
   }
 };
 
-const updateExistingRow = (item) => {
+const updateExistingRow = (item: Forklift) => {
   item.isEdited = true;
 };
 
-const cancelUpdateExistingRow = (item) => {
+const cancelUpdateExistingRow = (item: Forklift) => {
   item.isEdited = false;
 };
 
-const saveExistingRow = async (item) => {
+const updateForklift = async (item: Forklift) => {
   try {
     const response = await fetch(`/api/forklifts/${item.id}`, {
       method: 'PUT',
@@ -88,17 +77,17 @@ const saveExistingRow = async (item) => {
     });
 
     if (response.ok || response.status === 201) {
-      const updatedItem = await response.json();
+      await response.json();
       item.isEdited = false;
     } else {
-      throw new Error('Deletion failed on server');
+      throw new Error('Failed to update forklift.');
     }
   } catch (error) {
-    console.error('There was an error!', error);
+    console.error('Error caught: ', error);
   }
 };
 
-const removeExistingRow = async (item, index) => {
+const removeForklift = async (item, index) => {
   try {
     const response = await fetch(`/api/forklifts/${item.id}`, {
       method: 'DELETE'
@@ -107,10 +96,10 @@ const removeExistingRow = async (item, index) => {
     if (response.ok || response.status === 204) {
       typedProps.forklifts.splice(index, 1);
     } else {
-      throw new Error('Deletion failed on server');
+      throw new Error('Failed to delete forklift.');
     }
   } catch (error) {
-    console.error('There was an error!', error);
+    console.error('Error caught: ', error);
   }
 };
 </script>
@@ -126,8 +115,7 @@ const removeExistingRow = async (item, index) => {
       density="compact"
       :loading="typedProps.isLoading"
       loading-text="Загрузка..."
-      no-data-text="Нет записей"
-      @click:row="selectForklift">
+      no-data-text="Нет записей">
     <template v-slot:item="{ item, index }">
       <tr @click="selectForklift(item)">
         <template v-if="item.isNew">
@@ -141,7 +129,7 @@ const removeExistingRow = async (item, index) => {
           <td></td>
           <td>
             <v-sheet class="d-flex">
-              <v-btn icon variant="text" @click="saveNewRow(item)">
+              <v-btn icon variant="text" @click="saveForklift(item)">
                 <v-icon>mdi-check-bold</v-icon>
               </v-btn>
               <v-btn icon variant="text" @click="cancelNewRow()">
@@ -161,7 +149,7 @@ const removeExistingRow = async (item, index) => {
           <td class="text-center text-body-small">{{ item.appUser }}</td>
           <td>
             <v-sheet class="d-flex">
-              <v-btn icon variant="text" @click="saveExistingRow(item)">
+              <v-btn icon variant="text" @click="updateForklift(item)">
                 <v-icon>mdi-check-bold</v-icon>
               </v-btn>
               <v-btn icon variant="text" @click="cancelUpdateExistingRow(item)">
@@ -184,7 +172,7 @@ const removeExistingRow = async (item, index) => {
               <v-btn icon variant="text" @click="updateExistingRow(item)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon variant="text" @click="removeExistingRow(item, index)">
+              <v-btn icon variant="text" @click="removeForklift(item, index)">
                 <v-icon>mdi-close-thick</v-icon>
               </v-btn>
             </v-sheet>
