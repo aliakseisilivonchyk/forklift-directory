@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import {computed, PropType, watch} from "vue";
+import {computed, PropType} from "vue";
 import humanizeDuration from 'humanize-duration';
-
-interface Malfunction {
-  id: bigint
-  startTimestamp: string
-  endTimestamp?: string
-  downtime?: number
-  downtimeString?: string
-  description: number
-}
+import {Malfunction} from "@/types/Malfunction";
 
 const typedProps = defineProps({
   forkliftId: {
@@ -26,13 +18,15 @@ const typedProps = defineProps({
   }
 });
 
-const itemsLength = computed(() => typedProps.malfunctions.length)
+const computedMalfunctionsLength = computed(() => typedProps.malfunctions.length)
+const computedMalfunctions = computed(() => typedProps.malfunctions.map(malfunction => {
+  return {
+    ...malfunction,
+    downtimeString: humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: true })
+  }
+}))
 
-watch(() => typedProps.malfunctions, async (newMalfunctions, oldId) => {
-  newMalfunctions.forEach(function(malfunction, index, array) {
-    malfunction.downtimeString = humanizeDuration(malfunction.downtime, { language: 'ru', units: ['h', 'm'], round: true });
-  })
-});
+const emit = defineEmits(['update']);
 
 const headers = [
   { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
@@ -43,7 +37,8 @@ const headers = [
   { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
 ]
 
-const updateExistingRow = (item) => {
+const updateExistingRow = (row) => {
+  emit('update', row);
 };
 
 const removeExistingRow = async (item, index) => {
@@ -66,8 +61,8 @@ const removeExistingRow = async (item, index) => {
 <template>
   <v-data-table-server
       :headers="headers"
-      :items="typedProps.malfunctions"
-      :items-length="itemsLength"
+      :items="computedMalfunctions"
+      :items-length="computedMalfunctionsLength"
       hide-default-footer
       fixed-header
       density="compact"
