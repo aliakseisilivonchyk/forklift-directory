@@ -27,7 +27,7 @@ const confirmDialog = () => {
 </script>
 
 <template>
-  <v-dialog v-model="dialog" max-width="400" persistent>
+  <v-dialog v-model="dialog" max-width="600" persistent>
     <v-card title="Удалить информацию о простое? Вы уверены?">
       <template v-slot:actions>
         <v-spacer></v-spacer>

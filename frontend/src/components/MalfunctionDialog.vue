@@ -102,7 +102,7 @@ const createDefaultMalfunction = () => {
 </script>
 
 <template>
-  <v-dialog v-model="dialog" max-width="600">
+  <v-dialog v-model="dialog" max-width="650">
     <template v-slot:activator="{ props: activatorProps }">
       <v-btn
           class="text-none font-weight-regular"
@@ -125,13 +125,13 @@ const createDefaultMalfunction = () => {
                   <v-label>Начало</v-label>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="malfunctionToSubmit.startTimestamp" :rules="startTimestampRules" variant="outlined" required/>
+                  <v-text-field min-width="160px" v-model="malfunctionToSubmit.startTimestamp" :rules="startTimestampRules" variant="outlined" required/>
                 </v-col>
                 <v-col>
                   <v-label>Окончание</v-label>
                 </v-col>
                 <v-col>
-                  <v-text-field v-model="malfunctionToSubmit.endTimestamp" :rules="endTimestampRules" variant="outlined"/>
+                  <v-text-field  min-width="160px" v-model="malfunctionToSubmit.endTimestamp" :rules="endTimestampRules" variant="outlined"/>
                 </v-col>
               </v-row>
             </v-col>

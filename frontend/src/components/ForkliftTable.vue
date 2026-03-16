@@ -171,9 +171,9 @@ const removeForklift = async (id: number, index: number) => {
         <template v-if="item.isNew">
           <!-- Display inputs for the new row -->
           <td></td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="120px" variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="120px" variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="50px" variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
           <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td></td>
           <td></td>
@@ -191,9 +191,9 @@ const removeForklift = async (id: number, index: number) => {
         <template v-else-if="item.isEdited">
           <!-- Display inputs for the edited row -->
           <td class="text-center text-body-small">{{ item.id }}</td>
-          <td><v-text-field variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
-          <td><v-text-field variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
-          <td><v-text-field variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="120px" variant="outlined" v-model="item.brand" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="120px" variant="outlined" v-model="item.number" hide-details dense single-line rounded="xl"/></td>
+          <td><v-text-field min-width="50px" variant="outlined" v-model="item.carryingCapacity" hide-details dense single-line rounded="xl"/></td>
           <td><v-checkbox-btn v-model="item.isActive" disabled/></td>
           <td class="text-center text-body-small">{{ item.updateTimestamp }}</td>
           <td class="text-center text-body-small">{{ item.appUser }}</td>
