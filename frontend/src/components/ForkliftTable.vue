@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {computed, PropType} from "vue";
+import {computed, PropType, ref} from "vue";
 import {Forklift} from "@/types/Forklift";
+import ForkliftDeleteDialog from "@/components/ForkliftDeleteDialog.vue";
 
 const typedProps = defineProps({
   forklifts: {
@@ -13,6 +14,9 @@ const typedProps = defineProps({
   }
 });
 
+const deleteDialog = ref<boolean>(false);
+const deleteForkliftId = ref<number>(0);
+const deleteForkliftTableIndex = ref<number>(0);
 const itemsLength = computed(() => typedProps.forklifts.length);
 
 const headers = [
@@ -53,7 +57,7 @@ const saveForklift = async (item: Forklift) => {
       item.updateTimestamp = updatedItem.updateTimestamp;
       item.isNew = false;
     } else {
-      throw new Error('Deletion failed on server');
+      throw new Error('Failed to save forklift.');
     }
   } catch (error) {
     console.error('Error caught: ', error);
@@ -87,9 +91,15 @@ const updateForklift = async (item: Forklift) => {
   }
 };
 
-const removeForklift = async (item, index) => {
+const showRemoveForkliftDialog = (id: number, index: number) => {
+  deleteForkliftId.value = id;
+  deleteForkliftTableIndex.value = index;
+  deleteDialog.value = true;
+};
+
+const removeForklift = async (id: number, index: number) => {
   try {
-    const response = await fetch(`/api/forklifts/${item.id}`, {
+    const response = await fetch(`/api/forklifts/${id}`, {
       method: 'DELETE'
     });
 
@@ -172,7 +182,7 @@ const removeForklift = async (item, index) => {
               <v-btn icon variant="text" @click="updateExistingRow(item)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon variant="text" @click="removeForklift(item, index)">
+              <v-btn icon variant="text" @click="showRemoveForkliftDialog(item.id, index)">
                 <v-icon>mdi-close-thick</v-icon>
               </v-btn>
             </v-sheet>
@@ -181,6 +191,11 @@ const removeForklift = async (item, index) => {
       </tr>
     </template>
   </v-data-table-server>
+  <ForkliftDeleteDialog
+      v-model="deleteDialog"
+      :forkliftId="deleteForkliftId"
+      :forkliftTableIndex="deleteForkliftTableIndex"
+      @confirm="removeForklift"/>
 </template>
 
 <style scoped>

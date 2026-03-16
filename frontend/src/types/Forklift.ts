@@ -1,5 +1,5 @@
 export interface Forklift {
-    id?: bigint
+    id?: number
     brand: string
     number: string
     carryingCapacity: number

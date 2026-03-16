@@ -1,5 +1,5 @@
 export interface Malfunction {
-    id?: bigint
+    id?: number
     startTimestamp: string
     endTimestamp?: string
     downtime?: number
