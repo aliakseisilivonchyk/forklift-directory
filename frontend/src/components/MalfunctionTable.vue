@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import {computed, PropType} from "vue";
+import {computed, PropType, ref} from "vue";
 import humanizeDuration from 'humanize-duration';
 import {Malfunction} from "@/types/Malfunction";
+import MalfunctionDeleteDialog from "@/components/MalfunctionDeleteDialog.vue";
 
 const typedProps = defineProps({
   forkliftId: {
@@ -17,6 +18,10 @@ const typedProps = defineProps({
     default: () => false
   }
 });
+
+const deleteDialog = ref<boolean>(false);
+const deleteMalfunctionId = ref<number>(0);
+const deleteMalfunctionTableIndex = ref<number>(0);
 
 const computedMalfunctionsLength = computed(() => typedProps.malfunctions.length);
 const computedMalfunctions = computed(() => typedProps.malfunctions.map(malfunction => {
@@ -41,9 +46,15 @@ const updateMalfunction = (malfunctionToUpdate: Malfunction) => {
   emit('update', malfunctionToUpdate);
 };
 
-const deleteMalfunction = async (malfunctionToDelete: Malfunction, index: number) => {
+const showDeleteMalfunctionDialog = (id: number, index: number) => {
+  deleteMalfunctionId.value = id;
+  deleteMalfunctionTableIndex.value = index;
+  deleteDialog.value = true;
+};
+
+const deleteMalfunction = async (id: number, index: number) => {
   try {
-    const response = await fetch(`/api/forklifts/${typedProps.forkliftId}/malfunctions/${malfunctionToDelete.id}`, {
+    const response = await fetch(`/api/forklifts/${typedProps.forkliftId}/malfunctions/${id}`, {
       method: 'DELETE'
     });
 
@@ -81,7 +92,7 @@ const deleteMalfunction = async (malfunctionToDelete: Malfunction, index: number
             <v-btn icon variant="text" @click="updateMalfunction(item)">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <v-btn icon variant="text" @click="deleteMalfunction(item, index)">
+            <v-btn icon variant="text" @click="showDeleteMalfunctionDialog(item.id, index)">
               <v-icon>mdi-close-thick</v-icon>
             </v-btn>
           </v-sheet>
@@ -89,6 +100,11 @@ const deleteMalfunction = async (malfunctionToDelete: Malfunction, index: number
       </tr>
     </template>
   </v-data-table-server>
+  <MalfunctionDeleteDialog
+      v-model="deleteDialog"
+      :malfunctionId="deleteMalfunctionId"
+      :malfunctionTableIndex="deleteMalfunctionTableIndex"
+      @confirm="deleteMalfunction"/>
 </template>
 
 <style scoped>
