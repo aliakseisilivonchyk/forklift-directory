@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -81,11 +82,14 @@ public class ForkliftDirectoryService {
     }
 
     public MalfunctionDto updateMalfunction(int malfunctionId, MalfunctionDto malfunctionDto) {
+        ZonedDateTime endTimestamp = malfunctionDto.endTimestamp() != null && !malfunctionDto.endTimestamp().isEmpty() ?
+                LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER).atZone(ZoneId.systemDefault()) :
+                null;
+
         Malfunction existingMalfunction = malfunctionRepository.findById(malfunctionId).get();
         existingMalfunction.setStartTimestamp(LocalDateTime.parse(malfunctionDto.startTimestamp(), DATE_FORMATTER)
                 .atZone(ZoneId.systemDefault()));
-        existingMalfunction.setEndTimestamp(LocalDateTime.parse(malfunctionDto.endTimestamp(), DATE_FORMATTER)
-                .atZone(ZoneId.systemDefault()));
+        existingMalfunction.setEndTimestamp(endTimestamp);
         existingMalfunction.setDescription(malfunctionDto.description());
         Malfunction savedMalfunction = malfunctionRepository.save(existingMalfunction);
         return convertToDto(savedMalfunction);
@@ -107,8 +111,10 @@ public class ForkliftDirectoryService {
     }
 
     private static MalfunctionDto convertToDto(Malfunction malfunction) {
-        String endTimestamp = malfunction.getEndTimestamp() != null ? malfunction.getEndTimestamp().format(DATE_FORMATTER) : "";
-        return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp().format(DATE_FORMATTER),
+        String endTimestamp = malfunction.getEndTimestamp() != null ?
+                malfunction.getEndTimestamp().withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(DATE_FORMATTER) :
+                "";
+        return new MalfunctionDto(malfunction.getId(), malfunction.getStartTimestamp().withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(DATE_FORMATTER),
                  endTimestamp, malfunction.getDowntime(), malfunction.getDescription());
     }
 
