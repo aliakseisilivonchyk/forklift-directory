@@ -2,6 +2,7 @@ package com.github.aliakseisilivonchyk.forkliftdirectory.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class Forklift {
     private String brand;
     private String number;
     private float carryingCapacity;
+    @Formula("case when (SELECT count(*) FROM malfunction WHERE malfunction.forklift_id = id AND malfunction.end_timestamp IS NULL) > 0 then false else true end")
     private boolean isActive;
     private LocalDateTime updateTimestamp;
 
