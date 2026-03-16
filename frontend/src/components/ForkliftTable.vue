@@ -2,6 +2,7 @@
 import {computed, PropType, ref} from "vue";
 import {Forklift} from "@/types/Forklift";
 import ForkliftDeleteDialog from "@/components/ForkliftDeleteDialog.vue";
+import ForkliftCancelUpdateDialog from "@/components/ForkliftCancelUpdateDialog.vue";
 
 const typedProps = defineProps({
   forklifts: {
@@ -14,6 +15,9 @@ const typedProps = defineProps({
   }
 });
 
+const cancelDialog = ref<boolean>(false);
+const forkliftUpdated = ref<Forklift>(null);
+const forkliftBeforeUpdate = ref<Forklift>(null);
 const deleteDialog = ref<boolean>(false);
 const deleteForkliftId = ref<number>(0);
 const deleteForkliftTableIndex = ref<number>(0);
@@ -65,11 +69,36 @@ const saveForklift = async (item: Forklift) => {
 };
 
 const updateExistingRow = (item: Forklift) => {
+  forkliftBeforeUpdate.value = {
+    id: item.id,
+    brand: item.brand,
+    number: item.number,
+    carryingCapacity: item.carryingCapacity,
+    isActive: item.isActive,
+    updateTimestamp: item.updateTimestamp,
+    appUser: item.appUser,
+    isNew: item.isNew,
+    isEdited: item.isEdited
+  };
+
   item.isEdited = true;
+  forkliftUpdated.value = item;
 };
 
-const cancelUpdateExistingRow = (item: Forklift) => {
-  item.isEdited = false;
+const cancelUpdateExistingRow = () => {
+  forkliftUpdated.value.id = forkliftBeforeUpdate.value.id;
+  forkliftUpdated.value.brand = forkliftBeforeUpdate.value.brand;
+  forkliftUpdated.value.number = forkliftBeforeUpdate.value.number;
+  forkliftUpdated.value.carryingCapacity = forkliftBeforeUpdate.value.carryingCapacity;
+  forkliftUpdated.value.isActive = forkliftBeforeUpdate.value.isActive;
+  forkliftUpdated.value.updateTimestamp = forkliftBeforeUpdate.value.updateTimestamp;
+  forkliftUpdated.value.appUser = forkliftBeforeUpdate.value.appUser;
+  forkliftUpdated.value.isNew = forkliftBeforeUpdate.value.isNew;
+  forkliftUpdated.value.isEdited = forkliftBeforeUpdate.value.isEdited;
+};
+
+const showCancelForkliftDialog = () => {
+  cancelDialog.value = true;
 };
 
 const updateForklift = async (item: Forklift) => {
@@ -162,7 +191,7 @@ const removeForklift = async (id: number, index: number) => {
               <v-btn icon variant="text" @click="updateForklift(item)">
                 <v-icon>mdi-check-bold</v-icon>
               </v-btn>
-              <v-btn icon variant="text" @click="cancelUpdateExistingRow(item)">
+              <v-btn icon variant="text" @click="showCancelForkliftDialog">
                 <v-icon>mdi-close-thick</v-icon>
               </v-btn>
             </v-sheet>
@@ -196,6 +225,9 @@ const removeForklift = async (id: number, index: number) => {
       :forkliftId="deleteForkliftId"
       :forkliftTableIndex="deleteForkliftTableIndex"
       @confirm="removeForklift"/>
+  <ForkliftCancelUpdateDialog
+      v-model="cancelDialog"
+      @confirm="cancelUpdateExistingRow"/>
 </template>
 
 <style scoped>
