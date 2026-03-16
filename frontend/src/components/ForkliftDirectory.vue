@@ -95,7 +95,8 @@ const addNewRow = () => {
           <ForkliftTable
               :forklifts="forklifts"
               :isLoading="isLoading"
-              @updateSelected="updateSelectedForklift"/>
+              @updateSelected="updateSelectedForklift"
+              @submit="fetchForklifts"/>
         </v-col>
         <v-col class="d-flex overflow-auto">
           <MalfunctionDirectory

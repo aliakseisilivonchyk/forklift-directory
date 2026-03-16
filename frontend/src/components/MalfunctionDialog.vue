@@ -22,6 +22,8 @@ const malfunctionToSubmit = ref<Malfunction>({
 });
 const isFormValid = ref<boolean>(true);
 
+const emit = defineEmits(['submit']);
+
 const submitMalfunction = async () => {
   if (malfunctionToSubmit.value.isNew) {
     await createMalfunction();
@@ -30,6 +32,8 @@ const submitMalfunction = async () => {
   }
 
   dialog.value = false;
+
+  emit('submit');
 }
 
 const createMalfunction = async () => {

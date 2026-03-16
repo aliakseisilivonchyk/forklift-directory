@@ -52,7 +52,8 @@ const updateMalfunction = (malfunctionToUpdate: Malfunction) => {
     <v-col class="flex-grow-0 flex-shrink-1">
       <MalfunctionDialog
           :forkliftId="typedProps.forkliftId"
-          :malfunction="malfunction"/>
+          :malfunction="malfunction"
+          @submit="fetchMalfunctions(typedProps.forkliftId)"/>
     </v-col>
     <v-col class="flex-grow-1 d-flex overflow-auto">
       <MalfunctionTable

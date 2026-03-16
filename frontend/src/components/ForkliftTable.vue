@@ -35,7 +35,7 @@ const headers = [
   { title: 'Действия', value: 'actions', align: 'center', headerProps: { class: 'text-body-small' } }
 ];
 
-const emit = defineEmits(['updateSelected']);
+const emit = defineEmits(['updateSelected', 'submit']);
 
 const selectForklift = (item: Forklift) => {
   //TODO: row.select(!row.isSelected);
@@ -67,6 +67,8 @@ const saveForklift = async (item: Forklift) => {
   } catch (error) {
     console.error('Error caught: ', error);
   }
+
+  emit('submit');
 };
 
 const updateExistingRow = (item: Forklift) => {
@@ -125,6 +127,8 @@ const updateForklift = async (item: Forklift) => {
   }
 
   anyUpdating.value = false;
+
+  emit('submit');
 };
 
 const showRemoveForkliftDialog = (id: number, index: number) => {
