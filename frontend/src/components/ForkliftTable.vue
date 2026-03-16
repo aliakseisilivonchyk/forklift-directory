@@ -22,6 +22,7 @@ const deleteDialog = ref<boolean>(false);
 const deleteForkliftId = ref<number>(0);
 const deleteForkliftTableIndex = ref<number>(0);
 const itemsLength = computed(() => typedProps.forklifts.length);
+const anyUpdating = ref(false);
 
 const headers = [
   { title: 'Код записи', value: 'id', align: 'center', headerProps: { class: 'text-body-small' } },
@@ -69,6 +70,8 @@ const saveForklift = async (item: Forklift) => {
 };
 
 const updateExistingRow = (item: Forklift) => {
+  anyUpdating.value = true;
+
   forkliftBeforeUpdate.value = {
     id: item.id,
     brand: item.brand,
@@ -95,6 +98,8 @@ const cancelUpdateExistingRow = () => {
   forkliftUpdated.value.appUser = forkliftBeforeUpdate.value.appUser;
   forkliftUpdated.value.isNew = forkliftBeforeUpdate.value.isNew;
   forkliftUpdated.value.isEdited = forkliftBeforeUpdate.value.isEdited;
+
+  anyUpdating.value = false;
 };
 
 const showCancelForkliftDialog = () => {
@@ -118,6 +123,8 @@ const updateForklift = async (item: Forklift) => {
   } catch (error) {
     console.error('Error caught: ', error);
   }
+
+  anyUpdating.value = false;
 };
 
 const showRemoveForkliftDialog = (id: number, index: number) => {
@@ -208,7 +215,7 @@ const removeForklift = async (id: number, index: number) => {
           <td class="text-center text-body-small">{{ item.appUser }}</td>
           <td class="text-center">
             <v-sheet class="d-flex">
-              <v-btn icon variant="text" @click="updateExistingRow(item)">
+              <v-btn icon variant="text" :disabled="anyUpdating" @click="updateExistingRow(item)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
               <v-btn icon variant="text" @click="showRemoveForkliftDialog(item.id, index)">
